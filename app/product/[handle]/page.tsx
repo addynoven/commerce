@@ -7,7 +7,6 @@ import { ProductCard } from "components/product/product-card";
 import { ProductDescription } from "components/product/product-description";
 import { ProductTabs } from "components/product/product-tabs";
 import { ReviewSection } from "components/product/review-section";
-import { getReviewsForProduct } from "components/product/review-form-action";
 import { HIDDEN_PRODUCT_TAG } from "lib/constants";
 import { getProduct, getProductRecommendations } from "lib/shopify";
 import type { Image } from "lib/shopify/types";
@@ -80,8 +79,6 @@ export default async function ProductPage(props: {
     },
   };
 
-  const localReviews = await getReviewsForProduct(product.id);
-
   return (
     <div className="bg-white min-h-screen pb-[76px] md:pb-0">
       <script
@@ -152,7 +149,7 @@ export default async function ProductPage(props: {
       {/* Customer Reviews Section */}
       <div className="main-container py-16">
         <Suspense fallback={null}>
-          <ReviewSection product={product} localReviews={localReviews} />
+          <ReviewSection product={product} />
         </Suspense>
       </div>
 

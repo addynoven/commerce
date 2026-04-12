@@ -25,6 +25,7 @@ import {
   customerAddressUpdateMutation,
   customerCreateMutation,
   customerDefaultAddressUpdateMutation,
+  customerRecoverMutation,
 } from "./mutations/customer";
 import {
   getAllArticlesQuery,
@@ -344,6 +345,15 @@ export async function customerAccessTokenCreate(input: any): Promise<any> {
   });
 
   return res.body.data.customerAccessTokenCreate;
+}
+
+export async function customerRecover(email: string): Promise<any> {
+  const res = await shopifyFetch<any>({
+    query: customerRecoverMutation,
+    variables: { email },
+  });
+
+  return res.body.data.customerRecover;
 }
 
 export async function getCustomerOrders(customerAccessToken: string): Promise<any[]> {
