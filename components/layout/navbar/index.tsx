@@ -257,7 +257,9 @@ export async function Navbar() {
             </li>
             <li>
               <Link
-                href="/consultation"
+                href="https://firebrick-jackal-149570.hostingersite.com/our-doctors/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-neutral-700 hover:text-[#6e3835] transition-colors text-sm font-medium"
               >
                 Book Consultation

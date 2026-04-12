@@ -36,7 +36,11 @@ export default function MobileMenu({ menu, customer }: { menu: Menu[]; customer:
       : [{ title: "Login / Register", path: "/account/login" }]),
     { title: "About Us", path: "/about" },
     { title: "Blog", path: "/blog" },
-    { title: "Book Consultation", path: "/consultation" },
+    {
+      title: "Book Consultation",
+      path: "https://firebrick-jackal-149570.hostingersite.com/our-doctors/",
+      external: true,
+    },
     { title: "Sacred Lotus Retreat", path: "/retreat" },
     { title: "Contact", path: "/contact" },
   ];
@@ -101,6 +105,9 @@ export default function MobileMenu({ menu, customer }: { menu: Menu[]; customer:
                         <Link
                           href={item.path}
                           onClick={closeMobileMenu}
+                          {...("external" in item && item.external
+                            ? { target: "_blank", rel: "noopener noreferrer" }
+                            : {})}
                           className="text-[14px] font-bold uppercase tracking-[0.15em] text-neutral-900 hover:text-[#6e3835] transition-colors"
                         >
                           {item.title}
