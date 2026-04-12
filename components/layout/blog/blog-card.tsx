@@ -10,6 +10,7 @@ export type BlogPost = {
   image: string;
   slug: string;
   publishedAt?: string;
+  category?: string;
 };
 
 export default function BlogCard({

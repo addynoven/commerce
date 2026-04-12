@@ -69,42 +69,42 @@ export default async function Footer() {
 
       {/* 2. Main Footer Content */}
       <div className="main-container pt-8 md:pt-20">
-        <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-6 md:gap-16 mb-6 md:mb-20 border-b border-neutral-100 md:border-neutral-200 pb-6 md:pb-16 text-center md:text-left">
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-10 md:gap-16 mb-10 md:mb-20 md:border-b md:border-neutral-200 md:pb-16 text-center md:text-left">
           {/* Logo & Tagline */}
-          <div className="max-w-xs flex flex-col items-center md:items-start">
-            <Link href="/" className="inline-block mb-4 md:mb-1">
-              <Logo variant="maroon" />
+          <div className="max-w-sm flex flex-col items-center md:items-start">
+            <Link href="/" className="inline-block mb-6 md:mb-1">
+              <Logo variant="maroon" className="scale-150 md:scale-100 origin-center mb-4 md:mb-0" />
             </Link>
-            <p className="text-[12px] md:text-[13px] font-sans font-medium tracking-[0.2em] text-neutral-800 opacity-80 uppercase">
+            <p className="text-[15px] md:text-[13px] font-sans font-medium tracking-[0.18em] text-neutral-800 uppercase leading-[150%]">
               Over 100 Years of Ayurveda Heritage
             </p>
           </div>
 
           {/* Contact Details */}
-          <div className="flex flex-col items-start gap-3 md:gap-6 w-full md:w-auto pt-6 md:pt-0 border-t border-neutral-100 md:border-0 text-left">
-            <h3 className="text-lg md:text-xl font-serif font-bold text-neutral-900 mb-2 md:mb-0">
+          <div className="flex flex-col items-start gap-6 md:gap-6 w-full md:w-auto text-left">
+            <h3 className="text-2xl md:text-xl font-serif font-bold text-neutral-900">
               Contact Us
             </h3>
-            <div className="flex flex-col items-start gap-4 md:gap-6">
+            <div className="flex flex-col items-start gap-5 md:gap-6">
               <Link
                 href="tel:+914844058439"
-                className="flex items-center gap-3 group cursor-pointer"
+                className="flex items-center gap-4 group cursor-pointer"
               >
-                <div className="w-10 h-10 md:w-11 md:h-11 bg-[#A65B4A] rounded-full flex items-center justify-center text-white shadow-sm group-hover:bg-[#6e3835] transition-colors">
-                  <PhoneIcon className="h-5 w-5" />
+                <div className="w-14 h-14 md:w-11 md:h-11 bg-[#A65B4A] rounded-full flex items-center justify-center text-white shadow-sm group-hover:bg-[#6e3835] transition-colors flex-none">
+                  <PhoneIcon className="h-6 w-6 md:h-5 md:w-5" />
                 </div>
-                <span className="text-sm md:text-[15px] font-semibold text-neutral-800 group-hover:text-[#6e3835] transition-colors tracking-wide">
+                <span className="text-base md:text-[15px] font-semibold text-neutral-800 group-hover:text-[#6e3835] transition-colors tracking-wide">
                   +91 484 405 8439
                 </span>
               </Link>
               <Link
                 href="mailto:info@aarshaveda.com"
-                className="flex items-center gap-3 group cursor-pointer"
+                className="flex items-center gap-4 group cursor-pointer"
               >
-                <div className="w-10 h-10 md:w-11 md:h-11 bg-[#A65B4A] rounded-full flex items-center justify-center text-white shadow-sm group-hover:bg-[#6e3835] transition-colors">
-                  <EnvelopeIcon className="h-5 w-5" />
+                <div className="w-14 h-14 md:w-11 md:h-11 bg-[#A65B4A] rounded-full flex items-center justify-center text-white shadow-sm group-hover:bg-[#6e3835] transition-colors flex-none">
+                  <EnvelopeIcon className="h-6 w-6 md:h-5 md:w-5" />
                 </div>
-                <span className="text-sm md:text-[15px] font-semibold text-neutral-800 group-hover:text-[#6e3835] transition-colors tracking-wide">
+                <span className="text-base md:text-[15px] font-semibold text-neutral-800 group-hover:text-[#6e3835] transition-colors tracking-wide">
                   info@aarshaveda.com
                 </span>
               </Link>

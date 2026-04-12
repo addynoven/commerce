@@ -12,7 +12,7 @@ export async function Hero() {
     "A carefully curated range of products crafted for those who value purity, balance, and intentional living.";
 
   return (
-    <section className="relative w-full flex items-center h-[480px] md:h-[720px] bg-[#F5F5F5]">
+    <section className="relative w-full flex items-start md:items-center pt-8 md:pt-0 h-[480px] md:h-[720px] bg-[#F5F5F5]">
       {/* Background Images */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -26,7 +26,7 @@ export async function Hero() {
           src="/home/phone-banner.png"
           alt={title}
           fill
-          className="object-cover object-center block md:hidden"
+          className="object-cover object-bottom block md:hidden"
           priority
         />
         {/* Design gradient: linear-gradient(90deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 60%) */}
@@ -38,7 +38,7 @@ export async function Hero() {
         <div className="max-w-[560px] flex flex-col gap-8">
           {/* Title + Body */}
           <div className="flex flex-col gap-4">
-            <h1 className="font-serif font-semibold text-[36px] md:text-[52px] leading-[110%] text-white">
+            <h1 className="font-serif font-semibold text-[32px] md:text-[52px] leading-[110%] tracking-[-0.02em] text-white">
               {title}
             </h1>
             <p className="font-sans font-normal text-[14px] md:text-[18px] leading-[140%] text-white max-w-[420px] md:max-w-none">

@@ -1,5 +1,6 @@
 import BlogBanner from "components/layout/blog/blog-banner";
-import BlogCard, { BlogPost } from "components/layout/blog/blog-card";
+import { BlogPost } from "components/layout/blog/blog-card";
+import BlogList from "components/layout/blog/blog-list";
 import FAQAccordion from "components/layout/contact/faq-accordion";
 import Footer from "components/layout/footer";
 import { getAllArticles } from "lib/shopify";
@@ -38,6 +39,7 @@ export default async function BlogPage() {
     image: article.image?.url || "/blog_banner.png",
     slug: article.handle,
     publishedAt: article.publishedAt,
+    category: article.blog?.title,
   }));
 
   return (
@@ -59,17 +61,7 @@ export default async function BlogPage() {
             </p>
           </div>
         ) : (
-          <>
-            {/* Featured Post */}
-            <BlogCard post={posts[0]!} featured />
-
-            {/* Blog Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
-              {posts.slice(1).map((post) => (
-                <BlogCard key={post.slug} post={post} />
-              ))}
-            </div>
-          </>
+          <BlogList posts={posts} />
         )}
       </div>
 

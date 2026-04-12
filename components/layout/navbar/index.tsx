@@ -92,8 +92,14 @@ export async function Navbar() {
 
   return (
     <>
-      <div className="bg-[#6D8060] px-4 py-2 text-center text-sm font-medium text-white transition-colors">
-        Enjoy Free Shipping on All Orders Over ₹999
+      <div className="flex items-center justify-center gap-4 bg-[#6D8060] px-4 py-2 text-center text-sm font-medium text-white">
+        <button aria-label="Previous announcement" className="opacity-80 hover:opacity-100">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+        </button>
+        <span>Enjoy Free Shipping on All Orders Over ₹999</span>
+        <button aria-label="Next announcement" className="opacity-80 hover:opacity-100">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+        </button>
       </div>
       <nav className="relative border-b border-neutral-200 bg-white">
         {/* Mobile Header (0 to 768px) */}

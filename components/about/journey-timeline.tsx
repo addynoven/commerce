@@ -76,34 +76,41 @@ export function JourneyTimeline() {
         </h4>
       </div>
 
-      <div className="relative overflow-x-auto hide-scrollbar pb-12 cursor-grab active:cursor-grabbing">
-        <div className="flex gap-8 px-8 min-w-max relative z-10">
+      <div className="relative md:overflow-x-auto hide-scrollbar pb-12 md:cursor-grab md:active:cursor-grabbing">
+        {/* Mobile vertical rail */}
+        <div className="md:hidden absolute left-[22px] top-6 bottom-6 w-[2px] bg-[#606E4C]/30 rounded-full" />
+        <div className="flex flex-col md:flex-row gap-6 md:gap-8 md:px-8 md:min-w-max relative z-10">
           {milestones.map((m, idx, arr) => (
-            <div key={idx} className="flex-none w-[320px] pt-4 relative">
-              {/* Connecting Line to next item */}
+            <div key={idx} className="flex-none w-full md:w-[320px] md:pt-4 relative pl-12 md:pl-0">
+              {/* Desktop horizontal line */}
               {idx < arr.length - 1 && (
-                <div className="absolute top-[32px] left-1/2 w-[calc(100%+32px)] h-[1px] bg-[#606E4C]/40 z-0" />
+                <div className="hidden md:block absolute top-[32px] left-1/2 w-[calc(100%+32px)] h-[1px] bg-[#606E4C]/40 z-0" />
               )}
 
-              {/* Dot */}
-              <div className="flex justify-center mb-8 relative z-10">
+              {/* Mobile dot — sits on the rail */}
+              <div className="md:hidden absolute left-[13px] top-6 w-5 h-5 rounded-full border-2 border-[#606E4C] bg-[#FAF7F2] flex items-center justify-center z-10">
+                <div className="w-2 h-2 rounded-full bg-[#606E4C]" />
+              </div>
+
+              {/* Desktop dot */}
+              <div className="hidden md:flex justify-center mb-8 relative z-10">
                 <div className="w-8 h-8 rounded-full border-2 border-[#606E4C] bg-[#FAF7F2] flex items-center justify-center">
                   <div className="w-3 h-3 rounded-full bg-[#606E4C]" />
                 </div>
               </div>
 
               {/* Card */}
-              <div className="bg-white p-8 rounded-sm shadow-sm border border-neutral-100 min-h-[220px]">
-                <h3 className="text-4xl font-serif font-bold text-[#606E4C] mb-6">
+              <div className="bg-white p-6 md:p-8 rounded-lg md:rounded-sm shadow-[0_4px_16px_rgba(0,0,0,0.04)] border border-neutral-100 md:min-h-[220px]">
+                <h3 className="text-3xl md:text-4xl font-serif font-bold text-[#606E4C] mb-4 md:mb-6">
                   {m.year}
                 </h3>
-                <ul className="space-y-4">
+                <ul className="space-y-3 md:space-y-4">
                   {m.bullets.map((bullet, bIdx) => (
                     <li
                       key={bIdx}
                       className="flex gap-3 text-sm text-neutral-700 font-medium leading-relaxed"
                     >
-                      <span className="flex-none mt-1.5 w-1.5 h-1.5 bg-neutral-900 rounded-full" />
+                      <span className="flex-none mt-1.5 w-1.5 h-1.5 bg-[#606E4C] rounded-full" />
                       <span>{bullet}</span>
                     </li>
                   ))}

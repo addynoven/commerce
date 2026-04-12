@@ -39,7 +39,7 @@ export function CategoriesClient({ collections }: { collections: any[] }) {
       {/* Mobile: horizontal scroll */}
       <div
         ref={scrollContainerRef}
-        className="flex md:hidden overflow-x-auto gap-7 pb-4 -mx-4 px-4 snap-x snap-mandatory hide-scrollbar scroll-smooth"
+        className="flex md:hidden w-full overflow-x-auto gap-7 pb-4 -mx-4 px-4 snap-x snap-mandatory hide-scrollbar scroll-smooth"
       >
         {collections.map((collection) => (
           <Link

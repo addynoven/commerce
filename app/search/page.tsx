@@ -3,7 +3,6 @@ import ProductGridItems from "components/layout/product-grid-items";
 import SearchPageWrapper from "components/layout/search/search-page-wrapper";
 import { defaultSort, sorting } from "lib/constants";
 import { getCollections, getProducts } from "lib/shopify";
-import { AyurvedicExperts } from "components/home/ayurvedic-experts";
 import { Testimonials } from "components/home/testimonials";
 
 import CollectionBanner from "components/layout/search/collection-banner";
@@ -151,7 +150,6 @@ export default async function SearchPage(props: {
         )}
       </SearchPageWrapper>
 
-      <AyurvedicExperts />
       <Testimonials />
     </>
   );
