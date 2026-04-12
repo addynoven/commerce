@@ -24,7 +24,6 @@ export function BottomMobileNav({
   const pathname = usePathname();
   const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
 
-  // Hide bottom nav on product detail pages
   if (pathname.includes("/product/")) {
     return null;
   }

@@ -77,8 +77,16 @@ export default function AboutPage() {
 
       {/* 3. The Origin & The Meaning - Split Sections */}
       <section className="grid grid-cols-1 md:grid-cols-2">
-        {/* The Origin */}
-        <div className="bg-[#3D4838] p-12 lg:p-24 flex flex-col justify-center text-white min-h-[500px] order-2 md:order-1">
+        {/* The Origin — image left, text right on desktop; image above text on mobile */}
+        <div className="relative min-h-[400px] order-1 md:order-1">
+          <Image
+            src="/about/About-The Origin.webp"
+            alt="The Origin"
+            fill
+            className="object-cover"
+          />
+        </div>
+        <div className="bg-[#3D4838] p-12 lg:p-24 flex flex-col justify-center text-white min-h-[500px] order-2 md:order-2">
           <h2 className="text-3xl lg:text-5xl font-serif font-bold mb-8">
             The Origin
           </h2>
@@ -91,17 +99,9 @@ export default function AboutPage() {
             down across generations.
           </p>
         </div>
-        <div className="relative min-h-[400px] order-1 md:order-2">
-          <Image
-            src="/about/About-The Origin.webp"
-            alt="The Origin"
-            fill
-            className="object-cover"
-          />
-        </div>
 
-        {/* The Meaning (Reversed on desktop) */}
-        <div className="relative min-h-[400px] md:order-1">
+        {/* The Meaning — image above text on mobile; text left, image right on desktop */}
+        <div className="relative min-h-[400px] order-3 md:order-4">
           <Image
             src="/about/About-The Meaning.webp"
             alt="The Meaning"
@@ -109,7 +109,7 @@ export default function AboutPage() {
             className="object-cover"
           />
         </div>
-        <div className="bg-[#3D4838] p-12 lg:p-24 flex flex-col justify-center text-white min-h-[500px] md:order-2">
+        <div className="bg-[#3D4838] p-12 lg:p-24 flex flex-col justify-center text-white min-h-[500px] order-4 md:order-3">
           <h2 className="text-3xl lg:text-5xl font-serif font-bold mb-8">
             The Meaning
           </h2>
@@ -134,63 +134,63 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
             {/* Profile 1 */}
-            <div className="bg-[#FAF7F2] p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 rounded-sm">
-              <div className="relative w-48 h-64 flex-none">
-                <div className="absolute inset-0 bg-white rounded-full translate-y-4 scale-[1.02] border border-neutral-100" />
+            <div className="bg-[#F2F5F1] md:bg-[#FAF7F2] p-3 md:p-12 flex flex-row md:flex-row items-center gap-3 md:gap-8 rounded">
+              <div className="relative w-28 h-40 md:w-48 md:h-64 flex-none">
+                <div className="hidden md:block absolute inset-0 bg-white rounded-full md:translate-y-4 md:scale-[1.02] border border-neutral-100" />
                 <Image
                   src="/about/Kollasseril-Govindan.svg"
                   alt="Kunju Panicker"
                   fill
-                  className="object-cover rounded-full border-4 border-white shadow-xl grayscale"
+                  className="object-cover md:rounded-full md:border-4 md:border-white md:shadow-xl grayscale"
                   style={{ objectPosition: "20% 10%" }}
                 />
               </div>
-              <div className="text-left">
-                <span className="inline-block bg-[#D3E1D4] text-[#3D4838] px-3 py-1 text-xs font-bold rounded-sm mb-4">
+              <div className="flex flex-col items-start gap-1 text-left">
+                <span className="inline-block bg-[#E1E6DD] text-[#809671] px-2 py-1 text-sm font-semibold rounded mb-1 md:mb-4 md:text-xs md:font-bold md:bg-[#D3E1D4] md:text-[#3D4838]">
                   1914 to 1973
                 </span>
-                <h3 className="text-2xl font-serif font-bold text-neutral-900 mb-1">
+                <h3 className="text-xl md:text-2xl font-serif font-medium md:font-bold text-neutral-900">
                   Kunju Panicker
                 </h3>
-                <p className="text-[#A65B4A] font-serif italic text-sm mb-3">
+                <p className="text-[#95473C] md:text-[#A65B4A] font-sans md:font-serif md:italic text-base md:text-sm">
                   Ayurveda Acharya Vaidyan
                 </p>
-                <p className="text-neutral-500 text-xs italic">
+                <p className="text-neutral-900 md:text-neutral-500 font-serif italic text-base md:text-xs">
                   Kollasseril Govindan
                 </p>
               </div>
             </div>
 
             {/* Profile 2 */}
-            <div className="bg-[#FAF7F2] p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 rounded-sm">
-              <div className="relative w-48 h-64 flex-none">
-                <div className="absolute inset-0 bg-white rounded-full translate-y-4 scale-[1.02] border border-neutral-100" />
+            <div className="bg-[#F2F5F1] md:bg-[#FAF7F2] p-3 md:p-12 flex flex-row md:flex-row items-center gap-3 md:gap-8 rounded">
+              <div className="relative w-28 h-40 md:w-48 md:h-64 flex-none">
+                <div className="hidden md:block absolute inset-0 bg-white rounded-full md:translate-y-4 md:scale-[1.02] border border-neutral-100" />
                 <Image
                   src="/about/Vallomparambath-Panickassery.svg"
                   alt="Govindan Vaidyar"
                   fill
-                  className="object-cover rounded-full border-4 border-white shadow-xl grayscale"
+                  className="object-cover md:rounded-full md:border-4 md:border-white md:shadow-xl grayscale"
                   style={{ objectPosition: "75% 10%" }}
                 />
               </div>
-              <div className="text-left">
-                <span className="inline-block bg-[#D3E1D4] text-[#3D4838] px-3 py-1 text-xs font-bold rounded-sm mb-4">
+              <div className="flex flex-col items-start gap-1 text-left">
+                <span className="inline-block bg-[#E1E6DD] text-[#809671] px-2 py-1 text-sm font-semibold rounded mb-1 md:mb-4 md:text-xs md:font-bold md:bg-[#D3E1D4] md:text-[#3D4838]">
                   1918 to 1990
                 </span>
-                <h3 className="text-2xl font-serif font-bold text-neutral-900 mb-1">
+                <h3 className="text-xl md:text-2xl font-serif font-medium md:font-bold text-neutral-900">
                   Govindan Vaidyar
                 </h3>
-                <p className="text-[#A65B4A] font-serif italic text-sm mb-3">
+                <p className="text-[#95473C] md:text-[#A65B4A] font-sans md:font-serif md:italic text-base md:text-sm">
                   Ayurveda Acharya Vaidyan
                 </p>
-                <p className="text-neutral-500 text-xs italic">
+                <p className="text-neutral-900 md:text-neutral-500 font-serif italic text-base md:text-xs">
                   Vallomparambath Panickassery
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="max-w-4xl mx-auto space-y-8 text-neutral-600 leading-relaxed font-medium">
+          <div className="max-w-4xl mx-auto space-y-8 text-neutral-900 md:text-neutral-600 leading-relaxed font-normal md:font-medium text-center">
             <p>
               Aarshaveda is built on a distinguished heritage of Ayurvedic
               excellence passed down through generations. The foundation was
@@ -219,7 +219,7 @@ export default function AboutPage() {
       {/* 5. Symbol of Healing (Existing) */}
       <section className="bg-[#FAF7F2] overflow-hidden">
         <div className="grid grid-cols-1 md:grid-cols-2 items-center">
-          <div className="p-12 lg:p-24 space-y-8">
+          <div className="p-12 lg:p-24 space-y-8 order-2 md:order-1">
             <h2 className="text-3xl lg:text-5xl font-serif font-bold text-neutral-900 leading-tight">
               The Symbol of <br /> Ayurvedic Healing
             </h2>
@@ -240,7 +240,7 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
-          <div className="relative min-h-[600px]">
+          <div className="relative min-h-[400px] md:min-h-[600px] order-1 md:order-2">
             <Image
               src="/about/About-Symbol of Healing-Background.webp"
               alt="Lord Dhanvantari Bronze Statue"
@@ -265,8 +265,8 @@ export default function AboutPage() {
             <Image
               src="/about/logo.svg"
               alt="Green Leaves Background"
-              width={50}
-              height={50}
+              width={80}
+              height={80}
               className="object-cover"
             />
           </div>
@@ -286,32 +286,30 @@ export default function AboutPage() {
       </section>
 
       {/* 10.1 Prescribed in Ancient Texts */}
-      <section className="bg-[#FAF7F2] py-24 relative overflow-hidden px-4">
-        {/* Decorative Watermarks - Simplified Logo Element */}
-        <div className="absolute left-[-5%] top-1/2 -translate-y-1/2 opacity-[0.05] pointer-events-none hidden lg:block">
+      <section className="bg-[#F9F4EE] pt-7 pb-8 px-5 md:py-24 md:px-4 relative overflow-hidden isolate">
+        {/* Decorative Watermarks - Logo Symbol */}
+        <div className="absolute left-[-160px] top-1/2 -translate-y-1/2 opacity-[0.04] pointer-events-none w-[320px] h-[320px] md:left-[-5%] md:w-[400px] md:h-[400px] md:opacity-[0.05]">
           <Image
             src="/about/logo.svg"
             alt=""
-            width={400}
-            height={400}
-            className="grayscale"
+            fill
+            className="grayscale object-contain"
           />
         </div>
-        <div className="absolute right-[-5%] top-1/2 -translate-y-1/2 opacity-[0.05] pointer-events-none hidden lg:block">
+        <div className="absolute right-[-160px] top-1/2 -translate-y-1/2 opacity-[0.04] pointer-events-none w-[320px] h-[320px] md:right-[-5%] md:w-[400px] md:h-[400px] md:opacity-[0.05]">
           <Image
             src="/about/logo.svg"
             alt=""
-            width={400}
-            height={400}
-            className="grayscale"
+            fill
+            className="grayscale object-contain"
           />
         </div>
 
-        <div className="main-container relative z-10 text-center !pb-0">
-          <h2 className="text-3xl md:text-5xl font-serif font-bold text-neutral-900 mb-10 max-w-4xl mx-auto leading-tight">
+        <div className="main-container relative z-10 text-center flex flex-col items-center gap-4 !pb-0">
+          <h2 className="font-serif font-medium md:font-bold text-2xl md:text-5xl leading-[1.2] text-black md:text-neutral-900 max-w-4xl mx-auto">
             We Prepare Products as Prescribed in Ancient Texts
           </h2>
-          <p className="text-sm md:text-base text-neutral-700 leading-relaxed max-w-3xl mx-auto font-medium">
+          <p className="text-base md:text-base text-[#1F1F1F] md:text-neutral-700 leading-[1.5] md:leading-relaxed max-w-3xl mx-auto font-normal md:font-medium">
             Our traditional Ayurvedic formulations are crafted strictly in
             accordance with classical Ayurvedic texts, following methods passed
             down through generations. Using traditional brass, stone, and copper
@@ -328,7 +326,15 @@ export default function AboutPage() {
       {/* 6. Formulations Split */}
       <section className="grid grid-cols-1 md:grid-cols-2">
         {/* Classical */}
-        <div className="bg-[#3D4838] p-12 lg:p-24 flex flex-col justify-center text-white min-h-[500px]">
+        <div className="relative min-h-[300px] md:min-h-[400px] order-1 md:order-2">
+          <Image
+            src="/about/About-Classic%20Products.webp"
+            alt="Classical Formulations"
+            fill
+            className="object-cover"
+          />
+        </div>
+        <div className="bg-[#3D4838] p-8 md:p-12 lg:p-24 flex flex-col justify-center text-white min-h-[400px] md:min-h-[500px] order-2 md:order-1">
           <h2 className="text-3xl lg:text-5xl font-serif font-bold mb-6">
             Classical Ayurvedic <br /> Formulations
           </h2>
@@ -340,25 +346,17 @@ export default function AboutPage() {
             SEE PRODUCTS
           </button>
         </div>
-        <div className="relative min-h-[400px]">
-          <Image
-            src="/about/About-Classic Products.webp"
-            alt="Classical Formulations"
-            fill
-            className="object-cover"
-          />
-        </div>
 
         {/* Modern */}
-        <div className="relative min-h-[400px] order-2 md:order-1">
+        <div className="relative min-h-[300px] md:min-h-[400px] order-3">
           <Image
-            src="/about/About-Modern Products.webp"
+            src="/about/About-Modern%20Products.webp"
             alt="Modern Formulations"
             fill
             className="object-cover"
           />
         </div>
-        <div className="bg-[#3D4838] p-12 lg:p-24 flex flex-col justify-center text-white min-h-[500px] order-1 md:order-2">
+        <div className="bg-[#3D4838] p-8 md:p-12 lg:p-24 flex flex-col justify-center text-white min-h-[400px] md:min-h-[500px] order-4">
           <h2 className="text-3xl lg:text-5xl font-serif font-bold mb-6 italic">
             Modern, Yet Purely <br /> Ayurvedic
           </h2>
@@ -436,7 +434,7 @@ export default function AboutPage() {
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 via-30% to-transparent" />
               <div className="absolute bottom-10 left-10 right-10">
                 <h3 className="text-2xl font-serif font-bold text-white mb-6 leading-tight">
                   {item.title}

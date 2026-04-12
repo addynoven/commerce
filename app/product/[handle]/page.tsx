@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import Footer from "components/layout/footer";
 import { Gallery } from "components/product/gallery";
 import { ManufacturerInfo } from "components/product/manufacturer-info";
+import { MobileProductCTA } from "components/product/mobile-product-cta";
 import { ProductCard } from "components/product/product-card";
 import { ProductDescription } from "components/product/product-description";
 import { ProductTabs } from "components/product/product-tabs";
@@ -82,7 +83,7 @@ export default async function ProductPage(props: {
   const localReviews = await getReviewsForProduct(product.id);
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-white min-h-screen pb-[76px] md:pb-0">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -171,6 +172,8 @@ export default async function ProductPage(props: {
 
 
       <Footer />
+
+      <MobileProductCTA product={product} />
     </div>
   );
 }

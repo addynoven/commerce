@@ -51,9 +51,9 @@ export function AyurvedicExpertsClient({ experts }: { experts: any[] }) {
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
 
-              <div className="absolute inset-x-0 bottom-0 p-6 z-20 flex flex-col items-center">
-                <div className="text-center mb-5 md:mb-6">
-                  <h3 className="text-lg md:text-xl lg:text-2xl font-serif font-semibold text-white mb-1 md:mb-1.5 leading-tight tracking-[0.1em]">
+              <div className="absolute inset-x-0 bottom-0 p-6 z-20 flex flex-col items-stretch">
+                <div className="text-left mb-5 md:mb-6">
+                  <h3 className="text-lg md:text-xl lg:text-2xl font-serif font-semibold text-white mb-1 md:mb-1.5 leading-tight tracking-[0.05em] md:tracking-[0.1em] whitespace-nowrap">
                     {expert.title}
                   </h3>
                   <p className="text-[9px] md:text-[10px] lg:text-[11px] uppercase tracking-[0.15em] text-white/80 font-semibold">
@@ -80,14 +80,13 @@ export function AyurvedicExpertsClient({ experts }: { experts: any[] }) {
       </div>
 
       {/* Pagination indicators - Dynamic and scrollable for mobile */}
-      <div className="flex justify-center mt-8 md:hidden px-4">
+      <div className="flex justify-center mt-8 md:hidden  px-4">
         <div className="flex gap-1.5 overflow-x-auto hide-scrollbar pb-2">
           {experts.slice(0, 5).map((_, i) => (
             <div
               key={i}
-              className={`w-8 h-[2px] rounded-full flex-shrink-0 transition-colors duration-300 ${
-                i === activeIndex ? "bg-neutral-800" : "bg-neutral-200"
-              }`}
+              className={`w-8 h-[2px] rounded-full flex-shrink-0 transition-colors duration-300 ${i === activeIndex ? "bg-neutral-800" : "bg-neutral-200"
+                }`}
             />
           ))}
         </div>

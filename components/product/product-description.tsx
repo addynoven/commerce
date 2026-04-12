@@ -28,6 +28,80 @@ function StarRating({ rating = 4 }: { rating?: number }) {
   );
 }
 
+function DeliveryChecker() {
+  const [pincode, setPincode] = useState("");
+  const [status, setStatus] = useState<
+    | { type: "idle" }
+    | { type: "loading" }
+    | { type: "success"; days: number; pincode: string }
+    | { type: "error"; message: string }
+  >({ type: "idle" });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = pincode.trim();
+    if (!/^\d{6}$/.test(trimmed)) {
+      setStatus({
+        type: "error",
+        message: "Please enter a valid 6-digit pincode",
+      });
+      return;
+    }
+
+    setStatus({ type: "loading" });
+    setTimeout(() => {
+      const firstDigit = parseInt(trimmed[0]!, 10);
+      const days = 3 + (firstDigit % 4);
+      setStatus({ type: "success", days, pincode: trimmed });
+    }, 600);
+  };
+
+  return (
+    <div className="space-y-4">
+      <label className="text-xs md:text-sm font-semibold text-[#2D312E] block">
+        Check delivery at your location
+      </label>
+      <form
+        onSubmit={handleSubmit}
+        className="flex border border-neutral-300 rounded-[6px] overflow-hidden focus-within:border-neutral-900 transition-colors"
+      >
+        <input
+          type="text"
+          inputMode="numeric"
+          maxLength={6}
+          value={pincode}
+          onChange={(e) => {
+            const next = e.target.value.replace(/\D/g, "").slice(0, 6);
+            setPincode(next);
+            if (status.type === "error" || status.type === "success") {
+              setStatus({ type: "idle" });
+            }
+          }}
+          placeholder="Enter Pincode"
+          className="flex-1 text-sm px-4 py-3 md:py-3.5 focus:outline-none placeholder:text-neutral-400 font-sans"
+        />
+        <button
+          type="submit"
+          disabled={status.type === "loading"}
+          className="bg-[#6B8E67]/90 text-white px-6 md:px-8 py-3 md:py-3.5 text-[10px] md:text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#6B8E67] transition-colors border-l border-neutral-300 disabled:opacity-60"
+        >
+          {status.type === "loading" ? "Checking..." : "Submit"}
+        </button>
+      </form>
+      {status.type === "error" && (
+        <p className="text-xs text-red-600 font-medium">{status.message}</p>
+      )}
+      {status.type === "success" && (
+        <p className="text-xs text-[#6B8E67] font-medium flex items-center gap-1.5">
+          <CheckCircle2 className="w-4 h-4" strokeWidth={2} />
+          Delivery available to {status.pincode} in {status.days}-
+          {status.days + 2} business days
+        </p>
+      )}
+    </div>
+  );
+}
+
 function QuantitySelector({
   quantity,
   setQuantity,
@@ -341,18 +415,6 @@ export function ProductDescription({ product }: { product: Product }) {
         <BuyNow product={product} quantity={quantity} />
       </div>
 
-      {/* CTA Buttons — Mobile (sticky bottom bar) */}
-      <div className="md:hidden fixed bottom-[60px] left-0 right-0 z-40 bg-white border-t border-neutral-200 px-4 py-3 flex gap-3 shadow-[0_-2px_10px_rgba(0,0,0,0.08)]">
-        <div className="flex-1">
-          <AddToCart
-            product={product}
-            quantity={quantity}
-            className="w-full h-11 bg-[#6B8E67] text-white text-[10px] font-semibold uppercase tracking-[0.15em] hover:bg-[#5A7A56] rounded-[6px]"
-          />
-        </div>
-        <BuyNow product={product} quantity={quantity} />
-      </div>
-
       {/* USP Icons */}
       <div className="flex items-center justify-between py-6 md:py-8 border-y border-neutral-100">
         {displayUSPs.map((usp) => (
@@ -371,21 +433,7 @@ export function ProductDescription({ product }: { product: Product }) {
       </div>
 
       {/* Delivery Checker */}
-      <div className="space-y-4">
-        <label className="text-xs md:text-sm font-semibold text-[#2D312E] block">
-          Check delivery at your location
-        </label>
-        <div className="flex border border-neutral-300 rounded-[6px] overflow-hidden focus-within:border-neutral-900 transition-colors">
-          <input
-            type="text"
-            placeholder="Enter Pincode"
-            className="flex-1 text-sm px-4 py-3 md:py-3.5 focus:outline-none placeholder:text-neutral-400 font-sans"
-          />
-          <button className="bg-[#6B8E67]/90 text-white px-6 md:px-8 py-3 md:py-3.5 text-[10px] md:text-xs font-semibold uppercase tracking-[0.2em] hover:bg-[#6B8E67] transition-colors border-l border-neutral-300">
-            Submit
-          </button>
-        </div>
-      </div>
+      <DeliveryChecker />
 
       {/* Available Offers */}
       <AvailableOffers product={product} />
