@@ -819,6 +819,10 @@ export async function getAllArticles(): Promise<Article[]> {
 }
 
 export async function getExperts() {
+  "use cache";
+  cacheTag(TAGS.collections);
+  cacheLife("days");
+
   const query = `
     query {
       metaobjects(type: "expert", first: 10) {

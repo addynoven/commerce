@@ -83,7 +83,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSans.variable} ${playfair.variable}`}
+      className={`${instrumentSans.variable} ${playfair.variable} ${instrumentSans.className}`}
       suppressHydrationWarning={true}
     >
       <body className="bg-brand-cream text-black selection:bg-brand-green selection:text-white font-sans">

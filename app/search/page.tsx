@@ -1,11 +1,26 @@
 import { cookies } from "next/headers";
-import ProductGridItems from "components/layout/product-grid-items";
+import { Suspense } from "react";
 import SearchPageWrapper from "components/layout/search/search-page-wrapper";
+import { CachedProductsGrid } from "components/search/cached-products-grid";
 import { defaultSort, sorting } from "lib/constants";
 import { getCollections, getProducts } from "lib/shopify";
 import { Testimonials } from "components/home/testimonials";
 
 import CollectionBanner from "components/layout/search/collection-banner";
+
+async function getQuantityFilterValues(countryCode: string): Promise<string[]> {
+  "use cache";
+  const allProducts = await getProducts({ countryCode });
+  return Array.from(
+    new Set(
+      allProducts.flatMap((p) =>
+        p.options
+          .filter((o) => ["Quantity", "Size", "Weight"].includes(o.name))
+          .flatMap((o) => o.values),
+      ),
+    ),
+  ).sort();
+}
 
 export const metadata = {
   title: "Search",
@@ -31,9 +46,12 @@ export default async function SearchPage(props: {
   const { sortKey, reverse } =
     sorting.find((item) => item.slug === sort) || defaultSort;
 
-  // Fetch metadata first to build filters
-  const collections = await getCollections(undefined, countryCode);
-  const concerns = await getCollections("tag:concern", countryCode);
+  // Fetch collection metadata in parallel — these are independent of filters.
+  const [collections, concerns, quantities] = await Promise.all([
+    getCollections(undefined, countryCode),
+    getCollections("tag:concern", countryCode),
+    getQuantityFilterValues(countryCode),
+  ]);
 
   // Build filters for Shopify API
   const filters: any[] = [];
@@ -89,27 +107,20 @@ export default async function SearchPage(props: {
     });
   }
 
-  const products = await getProducts({
-    sortKey,
-    reverse,
-    query: searchValue as string,
-    filters: filters.length > 0 ? filters : undefined,
-    countryCode,
-  });
-  const allProducts = await getProducts({ countryCode }); // For filters metadata
+  // Fetch the filtered slice (SSR) and the full catalog (for client-side
+  // filtering) in parallel. Both hit the same cached Shopify fetcher.
+  const [products, allProducts] = await Promise.all([
+    getProducts({
+      sortKey,
+      reverse,
+      query: searchValue as string,
+      filters: filters.length > 0 ? filters : undefined,
+      countryCode,
+    }),
+    getProducts({ countryCode }),
+  ]);
 
   const resultsText = products.length > 1 ? "results" : "result";
-
-  // Extract unique quantities from all products for the filter sidebar
-  const quantities = Array.from(
-    new Set(
-      allProducts.flatMap((p) =>
-        p.options
-          .filter((o) => ["Quantity", "Size", "Weight"].includes(o.name))
-          .flatMap((o) => o.values),
-      ),
-    ),
-  ).sort();
 
   return (
     <>
@@ -141,16 +152,15 @@ export default async function SearchPage(props: {
           </div>
         }
       >
-        {products.length > 0 ? (
-          <ProductGridItems products={products} />
-        ) : (
-          <div className="py-12 text-center text-neutral-500 font-sans">
-            No products found matching your search.
-          </div>
-        )}
+        <CachedProductsGrid
+          initialProducts={products}
+          allProducts={allProducts}
+        />
       </SearchPageWrapper>
 
-      <Testimonials />
+      <Suspense fallback={null}>
+        <Testimonials />
+      </Suspense>
     </>
   );
 }

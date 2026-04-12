@@ -37,6 +37,14 @@ export function ShopByBrandClient({
     return () => container.removeEventListener("scroll", handleScroll);
   }, [activeBrand]);
 
+  // Reset scroll + pagination dots when switching brands
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    container.scrollTo({ left: 0, behavior: "auto" });
+    setActiveIndex(0);
+  }, [activeBrand]);
+
   const scroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
       const { current } = scrollContainerRef;
@@ -49,27 +57,14 @@ export function ShopByBrandClient({
     }
   };
 
-  // Select products based on active brand
-  let displayProducts: Product[] = [];
-  if (activeBrand === 0)
-    displayProducts =
-      aarshavedaProducts.length > 0
-        ? aarshavedaProducts
-        : products.filter(
-            (p) => p.vendor?.toLowerCase() === "aarshaveda" || !p.vendor,
-          );
-  else if (activeBrand === 1)
-    displayProducts =
-      naturvedaProducts.length > 0
-        ? naturvedaProducts
-        : products.filter((p) => p.vendor?.toLowerCase() === "naturveda");
-  else if (activeBrand === 2)
-    displayProducts =
-      dasapushpamProducts.length > 0
-        ? dasapushpamProducts
-        : products.filter((p) => p.vendor?.toLowerCase() === "dasapushpam");
-
-  const finalProducts = displayProducts.length > 0 ? displayProducts : products;
+  // Select products based on active brand — no fallback so the filter
+  // actually reflects the brand the user selected.
+  const brandLists: Product[][] = [
+    aarshavedaProducts,
+    naturvedaProducts,
+    dasapushpamProducts,
+  ];
+  const finalProducts = brandLists[activeBrand] ?? [];
 
   return (
     <section className="py-6 md:py-8 bg-white overflow-hidden">
@@ -122,22 +117,30 @@ export function ShopByBrandClient({
               </div>
             ))}
           </div>
+
+          {finalProducts.length === 0 && (
+            <div className="py-16 text-center text-neutral-500 font-medium">
+              No products from {brands[activeBrand]} are available yet.
+            </div>
+          )}
         </div>
 
-        <div className="flex justify-center mt-8 mb-8">
-          <div className="flex gap-2">
-            {Array.from({ length: Math.min(5, finalProducts.length) }).map(
-              (_, i) => (
-                <div
-                  key={i}
-                  className={`w-10 h-1 rounded-full flex-shrink-0 transition-colors duration-300 ${
-                    i === activeIndex ? "bg-[#262626]" : "bg-[#D9D9D9]"
-                  }`}
-                />
-              ),
-            )}
+        {finalProducts.length > 0 && (
+          <div className="flex justify-center mt-8 mb-8">
+            <div className="flex gap-2">
+              {Array.from({ length: Math.min(5, finalProducts.length) }).map(
+                (_, i) => (
+                  <div
+                    key={i}
+                    className={`w-10 h-1 rounded-full flex-shrink-0 transition-colors duration-300 ${
+                      i === activeIndex ? "bg-[#262626]" : "bg-[#D9D9D9]"
+                    }`}
+                  />
+                ),
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="flex justify-center">
           <a

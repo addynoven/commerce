@@ -3,12 +3,22 @@
 import { Disclosure } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { PriceSlider } from "./price-slider";
 
 const QUANTITIES = ["100g", "250g", "500g", "100ml", "250ml", "500ml"];
 const AVAILABILITIES = ["In Stock", "Out Of Stock"];
+
+// Shallow URL update — skips Next.js server re-render. useSearchParams()
+// still reflects the new values because it reads from window.history.
+function shallowReplace(pathname: string, params: URLSearchParams) {
+  const qs = params.toString();
+  const url = qs ? `${pathname}?${qs}` : pathname;
+  window.history.replaceState(null, "", url);
+  // Notify listeners that depend on URL (useSearchParams already handles this).
+  window.dispatchEvent(new PopStateEvent("popstate"));
+}
 
 export default function FilterSidebar({
   collections,
@@ -19,7 +29,6 @@ export default function FilterSidebar({
   concerns: any[];
   quantities?: any[];
 }) {
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -49,18 +58,18 @@ export default function FilterSidebar({
       newValues.forEach((v) => params.append(key, v));
     }
 
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    shallowReplace(pathname, params);
   };
 
   const updatePrice = (min: number, max: number) => {
     const params = new URLSearchParams(searchParams.toString());
     if (min > 0) params.set("minPrice", min.toString());
     else params.delete("minPrice");
-    
+
     if (max < 2500) params.set("maxPrice", max.toString());
     else params.delete("maxPrice");
 
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    shallowReplace(pathname, params);
   };
 
   const handleAvailableChange = (label: string, checked: boolean) => {
@@ -72,7 +81,7 @@ export default function FilterSidebar({
       if (checked) params.set("available", "false");
       else params.delete("available");
     }
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    shallowReplace(pathname, params);
   };
 
   const isChecked = (key: string, value: string) => {
@@ -86,7 +95,7 @@ export default function FilterSidebar({
   };
 
   const clearAll = () => {
-    router.push(pathname, { scroll: false });
+    shallowReplace(pathname, new URLSearchParams());
   };
 
   return (

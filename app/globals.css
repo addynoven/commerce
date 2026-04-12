@@ -186,7 +186,44 @@
   ::backdrop,
   ::file-selector-button {
     border-color: var(--color-gray-200, currentColor);
-    font-family: inherit; /* Ensure fonts are inherited on mobile/tablet */
+  }
+
+  html {
+    font-family: var(--font-instrument), Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-synthesis: style weight;
+  }
+
+  body {
+    font-family: inherit;
+  }
+
+  /* Form controls don't inherit font-family by default in any browser — force it */
+  button,
+  input,
+  optgroup,
+  select,
+  textarea {
+    font-family: inherit;
+    font-feature-settings: inherit;
+    font-variation-settings: inherit;
+  }
+
+  /* Ensure italic + bold synthesis works everywhere (Safari/iOS disable it by default
+     when italic font files aren't loaded — currently we only ship `normal` style) */
+  i,
+  em,
+  cite,
+  var,
+  address,
+  dfn,
+  .italic,
+  [class*=" italic"],
+  [class^="italic"] {
+    font-synthesis: style weight;
+    font-style: italic;
   }
 }
 

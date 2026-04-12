@@ -1,0 +1,257 @@
+{
+  "_comment": "Category title -> keyword matchers used by the client-side filter. A product matches a category if its title contains ANY of the include keywords AND none of the exclude keywords. Edit freely; no rebuild needed.",
+  "AVADA - Best Sellers": {
+    "include": [
+      "ashwagandha",
+      "kumkumadi",
+      "saffron",
+      "chyawanprash",
+      "happy hair",
+      "burn it",
+      "graceful",
+      "neelibringadi",
+      "dasapushpam baby oil",
+      "virgin coconut oil"
+    ]
+  },
+  "Ayurveda for Weight Loss || Weight Management": {
+    "include": ["weight", "fat cutter", "fat burner", "burn it", "burn-it"]
+  },
+  "Weight Management": {
+    "include": ["weight", "fat cutter", "fat burner", "burn it", "burn-it"]
+  },
+  "Ayurveda Wellness Products": {
+    "include": [
+      "ashwagandha",
+      "chyawanprash",
+      "tulsi honey",
+      "graceful",
+      "happy hair",
+      "wellness"
+    ]
+  },
+  "Ayurvedic Immunity Booster": {
+    "include": [
+      "immunity",
+      "chyawanprash",
+      "tulsi honey",
+      "ashwagandha",
+      "amla"
+    ]
+  },
+  "Immunity Boosters": {
+    "include": [
+      "immunity",
+      "chyawanprash",
+      "tulsi honey",
+      "ashwagandha",
+      "amla"
+    ]
+  },
+  "Ayurvedic Lotion for Dry and Oily Skin": {
+    "include": ["lotion", "moisturizer", "lip butter", "hydrating"]
+  },
+  "Ayurvedic Medicine and Treatment for Diabetes": {
+    "include": ["diabetes", "gluco"]
+  },
+  "Ayurvedic Medicine for Pain || Pain Relief": {
+    "include": [
+      "pain",
+      "arthritis",
+      "arthrit ease",
+      "murivenna",
+      "pinda thailam",
+      "kottamchukkadi",
+      "varicose",
+      "sahacharadi"
+    ]
+  },
+  "Pain Relief": {
+    "include": [
+      "pain",
+      "arthritis",
+      "arthrit ease",
+      "murivenna",
+      "pinda thailam",
+      "kottamchukkadi",
+      "varicose",
+      "sahacharadi"
+    ]
+  },
+  "Ayurvedic Product and Medicine Online Store": {
+    "include": [
+      "ayurvedic",
+      "ashwagandha",
+      "chyawanprash",
+      "thailam",
+      "churna",
+      "powder",
+      "capsule",
+      "serum"
+    ]
+  },
+  "Baby Care": {
+    "include": ["baby", "dasapushpam"]
+  },
+  "Baby Care Products - Oil | Lotion | Serum": {
+    "include": ["baby", "dasapushpam"]
+  },
+  "Best Organic and Ayurvedic Product - Churna | Powder | Oil": {
+    "include": [
+      "powder",
+      "churna",
+      "organic",
+      "thailam",
+      "virgin coconut",
+      "castor oil",
+      "grape seed",
+      "hemp seed",
+      "moringa"
+    ]
+  },
+  "Body and Skin Care Products - Oil | Lotion": {
+    "include": [
+      "body lotion",
+      "lotion",
+      "moisturizer",
+      "hydrating",
+      "lip butter",
+      "rose water"
+    ]
+  },
+  "Body Care": {
+    "include": [
+      "body lotion",
+      "lotion",
+      "moisturizer",
+      "hydrating",
+      "lip butter",
+      "rose water",
+      "castor oil"
+    ]
+  },
+  "Cold Pressed Oils": {
+    "include": [
+      "cold pressed",
+      "virgin coconut",
+      "moringa seed oil",
+      "grape seed",
+      "hemp seed",
+      "castor oil"
+    ]
+  },
+  "Combos/ Kits": {
+    "include": ["combo", "kit"]
+  },
+  "Dasapushpam Thailam in Ayurveda - Baby and Mom Oil": {
+    "include": ["dasapushpam"]
+  },
+  "Mom & Baby": {
+    "include": ["baby", "dasapushpam", "mom oil"]
+  },
+  "Drive Out Dryness": {
+    "include": [
+      "lotion",
+      "moisturizer",
+      "hydrating",
+      "lip butter",
+      "dry skin",
+      "rose water"
+    ]
+  },
+  "Face Care": {
+    "include": [
+      "face",
+      "saffron",
+      "kumkumadi",
+      "lip butter",
+      "lip balm",
+      "under eye",
+      "rose water"
+    ]
+  },
+  "Face Care Products - Oil | Serum | Moisturizer": {
+    "include": [
+      "face",
+      "saffron",
+      "kumkumadi",
+      "lip butter",
+      "lip balm",
+      "under eye",
+      "rose water"
+    ]
+  },
+  "Hair Care": {
+    "include": ["hair", "neelibringadi", "bhringraj", "happy hair"]
+  },
+  "Hair Fall/Loss Treatment Products - Virgin Oil | Churna | Powder": {
+    "include": ["hair", "neelibringadi", "bhringraj", "happy hair"]
+  },
+  "Herbal Powders": {
+    "include": [
+      "powder",
+      "churna",
+      "neem leaf",
+      "shatavari",
+      "brahmi powder",
+      "haritaki",
+      "trikatu",
+      "ginger powder",
+      "triphala",
+      "amla powder",
+      "ashwagandha root powder",
+      "bhringraj powder",
+      "moringa leaf powder",
+      "turmeric powder",
+      "rasnadi"
+    ]
+  },
+  "Herbal Supplements": {
+    "include": [
+      "capsule",
+      "capsules",
+      "ashwagandha",
+      "burn it",
+      "arthrit ease",
+      "happy hair",
+      "graceful",
+      "gluco"
+    ]
+  },
+  "Natural and Organic Ayurvedic Products": {
+    "include": ["organic", "natural", "ayurvedic"]
+  },
+  "Organic and Ayurvedic Products Serum | Capusules | Oil": {
+    "include": ["organic", "ayurvedic", "serum", "capsule", "oil"]
+  },
+  "Serums": {
+    "include": ["serum"]
+  },
+  "Traditional Oils": {
+    "include": [
+      "thailam",
+      "mahanarayana",
+      "dhanwantharam",
+      "sahacharadi",
+      "brahmi thailam",
+      "pinda thailam",
+      "kottamchukkadi",
+      "lakshadi",
+      "mahachandanadi",
+      "kumkumadi",
+      "neelibringadi",
+      "murivenna"
+    ]
+  },
+  "Wellness": {
+    "include": [
+      "wellness",
+      "ashwagandha",
+      "chyawanprash",
+      "tulsi honey",
+      "graceful",
+      "happy hair",
+      "burn it"
+    ]
+  }
+}
