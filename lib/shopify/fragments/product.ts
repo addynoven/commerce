@@ -74,6 +74,15 @@ const productFragment = /* GraphQL */ `
     faqs: metafield(namespace: "custom", key: "faqs") {
       value
     }
+    benefits: metafield(namespace: "custom", key: "benefits") {
+      value
+    }
+    howToUse: metafield(namespace: "custom", key: "how_to_use") {
+      value
+    }
+    ingredients: metafield(namespace: "custom", key: "ingredients") {
+      value
+    }
     rating: metafield(namespace: "reviews", key: "rating") {
       value
     }

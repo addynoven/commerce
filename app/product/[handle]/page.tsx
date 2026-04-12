@@ -137,7 +137,7 @@ export default async function ProductPage(props: {
       {/* Content Tabs Section */}
       <div id="product-tabs" className="w-full">
         <Suspense fallback={null}>
-          <ProductTabs descriptionHtml={product.descriptionHtml || ""} />
+          <ProductTabs product={product} />
         </Suspense>
       </div>
 
