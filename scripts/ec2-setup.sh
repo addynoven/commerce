@@ -89,7 +89,7 @@ build_and_run() {
     pm2 restart "$APP_NAME" --update-env
   else
     log "Starting pm2 app"
-    pm2 start pnpm --name "$APP_NAME" --cwd "$REPO_DIR" -- start -- -p "$APP_PORT"
+    PORT="$APP_PORT" pm2 start pnpm --name "$APP_NAME" --cwd "$REPO_DIR" -- start
     sudo env PATH="$PATH:/usr/bin" pm2 startup systemd -u "$USER" --hp "$HOME" || true
   fi
 
