@@ -9,7 +9,6 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { BuyNow } from "./buy-now";
-import { VariantSelector } from "./variant-selector";
 
 function StarRating({ rating = 4 }: { rating?: number }) {
   return (
@@ -206,7 +205,46 @@ function AvailableOffers({ product }: { product: Product }) {
   );
 }
 
-export function ProductDescription({ product }: { product: Product }) {
+function AlsoAvailableInCards({ products }: { products: Product[] }) {
+  if (!products.length) return null;
+
+  return (
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      {products.map((p) => (
+        <a
+          key={p.handle}
+          href={`/product/${p.handle}`}
+          className="flex flex-col rounded-[6px] border border-neutral-200 overflow-hidden hover:border-neutral-400 transition-all"
+        >
+          <div className="relative aspect-square w-full bg-[#FAF7F2]">
+            <Image
+              src={p.featuredImage?.url || "/product-placeholder.jpg"}
+              alt={p.featuredImage?.altText || p.title}
+              fill
+              className="object-contain p-3"
+              sizes="120px"
+            />
+          </div>
+          <div className="p-2 bg-white space-y-0.5">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A65B4A] truncate">
+              {p.vendor}
+            </p>
+            <p className="text-[11px] font-medium text-neutral-800 leading-tight line-clamp-2">
+              {p.title}
+            </p>
+            <Price
+              amount={p.priceRange.minVariantPrice.amount}
+              currencyCode={p.priceRange.minVariantPrice.currencyCode}
+              className="text-[11px] font-semibold text-neutral-900"
+            />
+          </div>
+        </a>
+      ))}
+    </div>
+  );
+}
+
+export function ProductDescription({ product, alsoAvailableProducts = [] }: { product: Product; alsoAvailableProducts?: Product[] }) {
   const [quantity, setQuantity] = useState(1);
   const searchParams = useSearchParams();
 
@@ -392,16 +430,15 @@ export function ProductDescription({ product }: { product: Product }) {
         </div>
       </div>
 
-      {/* Variant Selector Container */}
-      <div className="bg-[#FAF7F2] rounded-[5px] p-4 md:p-6 border border-[#E9E1D5]">
-        <p className="text-[10px] md:text-[11px] font-semibold uppercase tracking-[0.15em] text-[#A65B4A] mb-4 md:mb-5">
-          Also Available In:
-        </p>
-        <VariantSelector
-          options={product.options}
-          variants={product.variants}
-        />
-      </div>
+      {/* Also Available In */}
+      {alsoAvailableProducts.length > 0 && (
+        <div className="bg-[#FAF7F2] rounded-[5px] p-4 md:p-6 border border-[#E9E1D5]">
+          <p className="text-[10px] md:text-[11px] font-semibold uppercase tracking-[0.15em] text-[#A65B4A] mb-4 md:mb-5">
+            Also Available In:
+          </p>
+          <AlsoAvailableInCards products={alsoAvailableProducts} />
+        </div>
+      )}
 
       {/* CTA Buttons — Desktop (inline) */}
       <div className="hidden md:flex gap-4 pt-2">

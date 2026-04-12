@@ -9,7 +9,7 @@ import { DEFAULT_OPTION } from "lib/constants";
 import { createUrl } from "lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { useFormStatus } from "react-dom";
 import { createCartAndSetCookie, redirectToCheckout } from "./actions";
 import { useCart } from "./cart-context";
@@ -21,12 +21,18 @@ type MerchandiseSearchParams = {
   [key: string]: string;
 };
 
+export function CartButton() {
+  const { cart, openCart } = useCart();
+  return (
+    <button aria-label="Open cart" onClick={openCart} className="group">
+      <OpenCart quantity={cart?.totalQuantity} />
+    </button>
+  );
+}
+
 export default function CartModal() {
-  const { cart, updateCartItem } = useCart();
-  const [isOpen, setIsOpen] = useState(false);
+  const { cart, updateCartItem, isCartOpen, openCart, closeCart } = useCart();
   const quantityRef = useRef(cart?.totalQuantity);
-  const openCart = () => setIsOpen(true);
-  const closeCart = () => setIsOpen(false);
 
   useEffect(() => {
     if (!cart) {
@@ -40,19 +46,13 @@ export default function CartModal() {
       cart?.totalQuantity !== quantityRef.current &&
       cart?.totalQuantity > 0
     ) {
-      if (!isOpen) {
-        setIsOpen(true);
-      }
+      openCart();
       quantityRef.current = cart?.totalQuantity;
     }
-  }, [isOpen, cart?.totalQuantity, quantityRef]);
+  }, [cart?.totalQuantity, openCart]);
 
   return (
-    <>
-      <button aria-label="Open cart" onClick={openCart}>
-        <OpenCart quantity={cart?.totalQuantity} />
-      </button>
-      <Transition show={isOpen}>
+    <Transition show={isCartOpen}>
         <Dialog onClose={closeCart} className="relative z-50">
           <Transition.Child
             as={Fragment}
@@ -223,8 +223,7 @@ export default function CartModal() {
             </Dialog.Panel>
           </Transition.Child>
         </Dialog>
-      </Transition>
-    </>
+    </Transition>
   );
 }
 

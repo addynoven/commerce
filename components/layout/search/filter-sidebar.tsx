@@ -46,6 +46,23 @@ export default function FilterSidebar({
 
   const updateFilters = (key: string, value: string, checked: boolean) => {
     const params = new URLSearchParams(searchParams.toString());
+
+    // "All" = clear all category filters (show everything)
+    if (key === "category" && value === "All") {
+      params.delete("category");
+      shallowReplace(pathname, params);
+      return;
+    }
+
+    // If checking a specific category, remove "All" if present
+    if (key === "category" && checked) {
+      const current = params.getAll("category");
+      if (current.includes("All")) {
+        params.delete("category");
+        current.filter((v) => v !== "All").forEach((v) => params.append("category", v));
+      }
+    }
+
     const currentValues = params.getAll(key);
 
     if (checked) {
@@ -90,6 +107,10 @@ export default function FilterSidebar({
       if (value === "In Stock") return val === "true";
       if (value === "Out Of Stock") return val === "false";
       return false;
+    }
+    // "All" is checked when no category filters are active
+    if (key === "category" && value === "All") {
+      return searchParams.getAll("category").length === 0;
     }
     return searchParams.getAll(key).includes(value);
   };

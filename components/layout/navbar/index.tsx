@@ -1,5 +1,5 @@
 import { UserIcon } from "@heroicons/react/24/outline";
-import CartModal from "components/cart/modal";
+import CartModal, { CartButton } from "components/cart/modal";
 import { CurrencySelector } from "components/currency-selector";
 import { Logo } from "components/logo";
 import { WishlistIcon } from "components/wishlist/wishlist-icon";
@@ -117,7 +117,7 @@ export async function Navbar() {
             <Logo variant="maroon" className="scale-75 origin-center" />
           </Link>
           <div className="flex items-center">
-            <CartModal />
+            <CartButton />
           </div>
         </div>
 
@@ -173,7 +173,7 @@ export async function Navbar() {
                 </span>
               )}
             </Link>
-            <CartModal />
+            <CartButton />
           </div>
         </div>
 
@@ -216,9 +216,10 @@ export async function Navbar() {
                 </span>
               )}
             </Link>
-            <CartModal />
+            <CartButton />
           </div>
         </div>
+        <CartModal />
       </nav>
       <div className="hidden md:flex w-full justify-center py-3 border-b border-neutral-200 bg-[#FAFAF8] relative">
         <div className="flex justify-center w-full max-w-[1440px] mx-auto px-8 lg:px-12 xl:px-24">
@@ -250,7 +251,7 @@ export async function Navbar() {
             <li>
               <Link
                 href="/about"
-                className="text-neutral-700 hover:text-[#6e3835] transition-colors text-sm font-medium"
+                className="text-[13px] font-semibold uppercase tracking-[0.15em] text-neutral-700 hover:text-[#6e3835] transition-all duration-300"
               >
                 About
               </Link>
@@ -260,7 +261,7 @@ export async function Navbar() {
                 href="https://firebrick-jackal-149570.hostingersite.com/our-doctors/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-neutral-700 hover:text-[#6e3835] transition-colors text-sm font-medium"
+                className="text-[13px] font-semibold uppercase tracking-[0.15em] text-neutral-700 hover:text-[#6e3835] transition-all duration-300"
               >
                 Book Consultation
               </Link>

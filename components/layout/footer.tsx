@@ -71,9 +71,9 @@ export default async function Footer() {
       <div className="main-container pt-8 md:pt-20">
         <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-10 md:gap-16 mb-10 md:mb-20 md:border-b md:border-neutral-200 md:pb-16 text-center md:text-left">
           {/* Logo & Tagline */}
-          <div className="max-w-sm flex flex-col items-center md:items-start">
+          <div className="max-w-sm flex flex-col items-center">
             <Link href="/" className="inline-block mb-6 md:mb-1">
-              <Logo variant="maroon" className="scale-150 md:scale-100 origin-center mb-4 md:mb-0" />
+              <Logo variant="maroon" width={225} height={88} className="mb-4 md:mb-0" />
             </Link>
             <p className="text-[15px] md:text-[13px] font-sans font-medium tracking-[0.18em] text-neutral-800 uppercase leading-[150%]">
               Over 100 Years of Ayurveda Heritage
@@ -81,30 +81,30 @@ export default async function Footer() {
           </div>
 
           {/* Contact Details */}
-          <div className="flex flex-col items-start gap-6 md:gap-6 w-full md:w-auto text-left">
-            <h3 className="text-2xl md:text-xl font-serif font-bold text-neutral-900">
+          <div className="flex flex-col items-start gap-4 md:gap-4 w-full md:w-auto md:max-w-[440px] text-left p-2">
+            <h3 className="text-2xl md:text-2xl font-serif font-medium text-black">
               Contact Us
             </h3>
-            <div className="flex flex-col items-start gap-5 md:gap-6">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-5 md:gap-10">
               <Link
                 href="tel:+914844058439"
-                className="flex items-center gap-4 group cursor-pointer"
+                className="flex items-center gap-3 group cursor-pointer"
               >
-                <div className="w-14 h-14 md:w-11 md:h-11 bg-[#A65B4A] rounded-full flex items-center justify-center text-white shadow-sm group-hover:bg-[#6e3835] transition-colors flex-none">
-                  <PhoneIcon className="h-6 w-6 md:h-5 md:w-5" />
+                <div className="w-10 h-10 md:w-7 md:h-7 bg-[#95473C] rounded-full flex items-center justify-center text-white group-hover:bg-[#6e3835] transition-colors flex-none">
+                  <PhoneIcon className="h-5 w-5 md:h-3.5 md:w-3.5" />
                 </div>
-                <span className="text-base md:text-[15px] font-semibold text-neutral-800 group-hover:text-[#6e3835] transition-colors tracking-wide">
+                <span className="text-base md:text-base font-normal text-[#1F1F1F] group-hover:text-[#6e3835] transition-colors">
                   +91 484 405 8439
                 </span>
               </Link>
               <Link
                 href="mailto:info@aarshaveda.com"
-                className="flex items-center gap-4 group cursor-pointer"
+                className="flex items-center gap-3 group cursor-pointer"
               >
-                <div className="w-14 h-14 md:w-11 md:h-11 bg-[#A65B4A] rounded-full flex items-center justify-center text-white shadow-sm group-hover:bg-[#6e3835] transition-colors flex-none">
-                  <EnvelopeIcon className="h-6 w-6 md:h-5 md:w-5" />
+                <div className="w-10 h-10 md:w-7 md:h-7 bg-[#95473C] rounded-full flex items-center justify-center text-white group-hover:bg-[#6e3835] transition-colors flex-none">
+                  <EnvelopeIcon className="h-5 w-5 md:h-3.5 md:w-3.5" />
                 </div>
-                <span className="text-base md:text-[15px] font-semibold text-neutral-800 group-hover:text-[#6e3835] transition-colors tracking-wide">
+                <span className="text-base md:text-base font-normal text-[#1F1F1F] group-hover:text-[#6e3835] transition-colors">
                   info@aarshaveda.com
                 </span>
               </Link>
@@ -113,18 +113,18 @@ export default async function Footer() {
         </div>
 
         {/* 3. Link Grid - Reordered for Mobile to match screenshot */}
-        <div className="flex flex-col lg:grid lg:grid-cols-4 gap-5 md:gap-12 mb-8 md:mb-20">
+        <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-5 lg:gap-20 py-5 lg:py-10 mb-8 md:mb-0">
           {/* Newsletter - First on mobile after contact, using separate div for divider */}
-          <div className="order-1 lg:order-4 border-b lg:border-0 border-neutral-100 pb-5 lg:pb-0">
+          <div className="order-1 lg:order-4 border-b lg:border-0 border-neutral-100 pb-5 lg:pb-0 lg:max-w-[440px] lg:flex-shrink-0">
             <NewsletterForm />
           </div>
 
           {/* Quick Links */}
           <div className="order-2 lg:order-1 border-b lg:border-0 border-neutral-100 pb-5 lg:pb-0">
-            <h4 className="text-lg md:text-xl font-serif font-bold text-neutral-900 mb-3 md:mb-8">
+            <h4 className="text-lg md:text-2xl font-serif font-medium text-black mb-2 md:mb-2 px-2">
               Quick Links
             </h4>
-            <ul className="flex flex-col gap-3 md:gap-4">
+            <ul className="flex flex-col">
               {(quickLinks.length > 0
                 ? quickLinks
                 : [
@@ -145,10 +145,10 @@ export default async function Footer() {
 
           {/* Shop */}
           <div className="order-3 lg:order-2 border-b lg:border-0 border-neutral-100 pb-5 lg:pb-0">
-            <h4 className="text-lg md:text-xl font-serif font-bold text-neutral-900 mb-3 md:mb-8">
+            <h4 className="text-lg md:text-2xl font-serif font-medium text-black mb-2 md:mb-2 px-2">
               Shop
             </h4>
-            <ul className="flex flex-col gap-3 md:gap-4">
+            <ul className="flex flex-col">
               {(shopMenu.length > 0
                 ? shopMenu
                 : [
@@ -176,10 +176,10 @@ export default async function Footer() {
 
           {/* Policies */}
           <div className="order-4 lg:order-3 border-b lg:border-0 border-neutral-100 pb-5 lg:pb-0">
-            <h4 className="text-lg md:text-xl font-serif font-bold text-neutral-900 mb-3 md:mb-8">
+            <h4 className="text-lg md:text-2xl font-serif font-medium text-black mb-2 md:mb-2 px-2">
               Policies
             </h4>
-            <ul className="flex flex-col gap-1 md:gap-4">
+            <ul className="flex flex-col">
               {(policyMenu.length > 0
                 ? policyMenu
                 : [

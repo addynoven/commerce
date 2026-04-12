@@ -80,7 +80,12 @@ export default async function ProductPage(props: {
     },
   };
 
-  const localReviews = await getReviewsForProduct(product.id);
+  const [localReviews, relatedProducts] = await Promise.all([
+    getReviewsForProduct(product.id),
+    getProductRecommendations(product.id),
+  ]);
+
+  const alsoAvailableProducts = relatedProducts.slice(0, 4);
 
   return (
     <div className="bg-white min-h-screen pb-[76px] md:pb-0">
@@ -131,7 +136,7 @@ export default async function ProductPage(props: {
           {/* Product Info */}
           <div className="basis-full lg:basis-1/2 pt-8 lg:pt-0">
             <Suspense fallback={null}>
-              <ProductDescription product={product} />
+              <ProductDescription product={product} alsoAvailableProducts={alsoAvailableProducts} />
             </Suspense>
           </div>
         </div>

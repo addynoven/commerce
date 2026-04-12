@@ -6,6 +6,65 @@ import { Product } from "lib/shopify/types";
 import { useState, useActionState } from "react";
 import { submitReview } from "./review-form-action";
 
+const MOCK_REVIEWS = [
+  {
+    id: "mock-1",
+    author: "Ananya Sharma",
+    location: "Pune",
+    date: "20/01/2026",
+    rating: 5,
+    title: "Noticeable Glow in Weeks",
+    content:
+      "I've been using the Saffron Revival Serum every night for about three weeks now, and my skin looks visibly brighter and more even. It feels light, absorbs quickly, and doesn't leave any stickiness. Perfect for my sensitive skin.",
+    verified: true,
+  },
+  {
+    id: "mock-2",
+    author: "Rohan Mehta",
+    location: "Ahmedabad",
+    date: "18/01/2026",
+    rating: 5,
+    title: "Lightweight and Nourishing",
+    content:
+      "This serum feels very gentle and natural on the skin. I like that it's Ayurvedic and not overloaded with fragrance. My skin feels nourished and calm, especially after a long day.",
+    verified: true,
+  },
+  {
+    id: "mock-3",
+    author: "Kavita Iyer",
+    location: "Bengaluru",
+    date: "16/01/2026",
+    rating: 5,
+    title: "Good for Daily Night Routine",
+    content:
+      "I use this serum as part of my night routine. It blends well with my moisturizer and hasn't caused any irritation. Over time, my skin texture feels smoother and healthier.",
+    verified: true,
+  },
+  {
+    id: "mock-4",
+    author: "Neha Kulkarni",
+    location: "Nagpur",
+    date: "14/01/2026",
+    rating: 5,
+    title: "Feels Pure and Effective",
+    content:
+      "You can actually feel the quality of the ingredients. The serum is not oily and gives a subtle glow by morning. I appreciate that it follows Ayurvedic principles and keeps the formulation clean.",
+    verified: true,
+  },
+];
+
+const MOCK_STATS = {
+  average: 4.5,
+  totalCount: 64,
+  counts: [
+    { rating: 5, count: 48 },
+    { rating: 4, count: 8 },
+    { rating: 3, count: 4 },
+    { rating: 2, count: 3 },
+    { rating: 1, count: 1 },
+  ],
+};
+
 function parseReviews(jsonValue: string | undefined) {
   if (!jsonValue) return null;
   try {
@@ -20,14 +79,14 @@ export function ReviewSection({ product, localReviews = [] }: { product: Product
   const [showForm, setShowForm] = useState(false);
   const dynamicReviews = parseReviews(product.reviewsJson?.value);
   const reviewsToDisplay = [...localReviews, ...(dynamicReviews || [])];
-  
+
   const totalReviews = reviewsToDisplay.length;
   const sumRating = reviewsToDisplay.reduce((acc, r: any) => acc + (r.rating || 0), 0);
   const averageRating: number = totalReviews > 0 ? Number((sumRating / totalReviews).toFixed(1)) : parseFloat(product.rating?.value || "0");
 
-  const hasReviews = totalReviews > 0 || parseInt(product.ratingCount?.value || "0") > 0;
+  const hasRealReviews = totalReviews > 0 || parseInt(product.ratingCount?.value || "0") > 0;
 
-  const counts: {rating: number, count: number}[] = [
+  const realCounts: {rating: number, count: number}[] = [
     { rating: 5, count: 0 },
     { rating: 4, count: 0 },
     { rating: 3, count: 0 },
@@ -37,15 +96,19 @@ export function ReviewSection({ product, localReviews = [] }: { product: Product
 
   reviewsToDisplay.forEach((r: any) => {
     const rNum = Math.floor(r.rating || 0);
-    const countItem = counts.find(c => c.rating === rNum);
+    const countItem = realCounts.find(c => c.rating === rNum);
     if (countItem) countItem.count++;
   });
 
-  const stats = {
-    average: averageRating,
-    totalCount: totalReviews || parseInt(product.ratingCount?.value || "0"),
-    counts
-  };
+  const stats = hasRealReviews
+    ? {
+        average: averageRating,
+        totalCount: totalReviews || parseInt(product.ratingCount?.value || "0"),
+        counts: realCounts,
+      }
+    : MOCK_STATS;
+
+  const displayReviews = hasRealReviews ? reviewsToDisplay : MOCK_REVIEWS;
 
   if (showForm) {
     return (
@@ -61,33 +124,6 @@ export function ReviewSection({ product, localReviews = [] }: { product: Product
             </button>
           </div>
           <ReviewForm onSuccess={() => setShowForm(false)} productId={product.id} />
-        </div>
-      </div>
-    );
-  }
-
-  if (!hasReviews) {
-    return (
-      <div className="bg-[#FAF7F2] rounded-2xl p-6 md:p-12 border border-[#E9E1D5] text-center">
-        <h2 className="text-3xl md:text-[36px] font-serif font-semibold text-neutral-900 mb-6">
-          Customer Reviews
-        </h2>
-        <div className="bg-white rounded-xl p-12 shadow-sm border border-neutral-100 max-w-2xl mx-auto">
-          <div className="flex justify-center mb-6">
-            <div className="flex gap-1 text-neutral-200">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <StarIcon key={i} className="h-8 w-8" />
-              ))}
-            </div>
-          </div>
-          <h3 className="text-xl font-semibold text-neutral-900 mb-2">Be the first to review!</h3>
-          <p className="text-neutral-500 mb-8">Share your experience with this product and help other customers.</p>
-          <button 
-            onClick={() => setShowForm(true)}
-            className="inline-block bg-neutral-900 text-white px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.2em] hover:bg-neutral-800 transition-all rounded-[6px]"
-          >
-            Write a Review
-          </button>
         </div>
       </div>
     );
@@ -153,7 +189,12 @@ export function ReviewSection({ product, localReviews = [] }: { product: Product
 
         {/* Reviews List */}
         <div className="lg:col-span-8 space-y-6">
-          {reviewsToDisplay.map((review: any) => (
+          {!hasRealReviews && (
+            <p className="text-[11px] text-neutral-400 font-medium italic mb-2">
+              Sample reviews shown — be the first to share your experience!
+            </p>
+          )}
+          {displayReviews.map((review: any) => (
             <div key={review.id} className="bg-white rounded-xl p-8 shadow-sm border border-neutral-100">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                 <div className="flex items-center gap-4">

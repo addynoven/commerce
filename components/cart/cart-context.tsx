@@ -9,9 +9,11 @@ import type {
 import React, {
   createContext,
   use,
+  useCallback,
   useContext,
   useMemo,
   useOptimistic,
+  useState,
 } from "react";
 
 type UpdateType = "plus" | "minus" | "delete";
@@ -28,6 +30,9 @@ type CartAction =
 
 type CartContextType = {
   cartPromise: Promise<Cart | undefined>;
+  isCartOpen: boolean;
+  openCart: () => void;
+  closeCart: () => void;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -197,8 +202,12 @@ export function CartProvider({
   children: React.ReactNode;
   cartPromise: Promise<Cart | undefined>;
 }) {
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const openCart = useCallback(() => setIsCartOpen(true), []);
+  const closeCart = useCallback(() => setIsCartOpen(false), []);
+
   return (
-    <CartContext.Provider value={{ cartPromise }}>
+    <CartContext.Provider value={{ cartPromise, isCartOpen, openCart, closeCart }}>
       {children}
     </CartContext.Provider>
   );
@@ -210,6 +219,7 @@ export function useCart() {
     throw new Error("useCart must be used within a CartProvider");
   }
 
+  const { isCartOpen, openCart, closeCart } = context;
   const initialCart = use(context.cartPromise);
   const [optimisticCart, updateOptimisticCart] = useOptimistic(
     initialCart,
@@ -232,7 +242,10 @@ export function useCart() {
       cart: optimisticCart,
       updateCartItem,
       addCartItem,
+      isCartOpen,
+      openCart,
+      closeCart,
     }),
-    [optimisticCart],
+    [optimisticCart, isCartOpen, openCart, closeCart],
   );
 }

@@ -487,9 +487,10 @@ export default function AboutPage() {
       </section>
 
       {/* 11. Meet the Founding Family */}
-      <section className="py-24 bg-white overflow-hidden">
-        <div className="main-container grid grid-cols-1 md:grid-cols-2 gap-16 items-center !pb-0">
-          <div className="relative h-[500px] md:h-[600px] rounded-sm overflow-hidden">
+      <section className="bg-[#3A4433] overflow-hidden">
+        <div className="flex flex-col md:flex-row min-h-[480px] md:h-[640px]">
+          {/* Image — left half, full bleed */}
+          <div className="relative w-full md:w-1/2 h-[360px] md:h-full flex-shrink-0">
             <Image
               src="/about/About-Founding Family.webp"
               alt="The Founding Family"
@@ -497,31 +498,25 @@ export default function AboutPage() {
               className="object-cover"
             />
           </div>
-          <div className="space-y-8">
-            <h2 className="text-4xl lg:text-5xl font-serif font-bold text-neutral-900">
-              Meet the Founding Family
-            </h2>
-            <div className="space-y-6">
-              <div>
-                <h4 className="text-lg font-serif font-bold text-[#3D4838]">
-                  Venkatesh Anilkumar:
-                </h4>
-                <p className="text-neutral-600 font-medium leading-relaxed mt-2">
-                  Finance graduate turned Ayurveda entrepreneur. Son of two
-                  worlds: commerce and care. Builder of a brand that heals
-                  without compromise.
-                </p>
-              </div>
-              <div>
-                <h4 className="text-lg font-serif font-bold text-[#3D4838]">
-                  Parvathy Mohan:
-                </h4>
-                <p className="text-neutral-600 font-medium leading-relaxed mt-2">
-                  MBA in Finance and Marketing. Former corporate risk and
-                  compliance strategist. Now the heart of Aarshaveda's culture,
-                  systems, and soul.
-                </p>
-              </div>
+
+          {/* Text — right half */}
+          <div className="flex-1 flex items-center bg-[#3A4433] px-8 py-12 md:p-[100px]">
+            <div className="flex flex-col gap-7 max-w-[520px]">
+              <h2 className="font-serif font-semibold text-[32px] md:text-[40px] leading-[120%] text-[#FCFBF8]">
+                Meet the Founding Family
+              </h2>
+              <p className="font-serif font-semibold text-[16px] md:text-[18px] leading-[150%] tracking-[0.02em] text-[#FCFBF8]">
+                <span className="font-bold">Venkatesh Anilkumar:</span> Finance
+                graduate turned Ayurveda entrepreneur. Son of two worlds:
+                commerce and care. Builder of a brand that heals without
+                compromise.
+              </p>
+              <p className="font-serif font-semibold text-[16px] md:text-[18px] leading-[150%] text-[#FCFBF8]">
+                <span className="font-bold">Parvathy Mohan:</span> MBA in
+                Finance and Marketing. Former corporate risk and compliance
+                strategist. Now the heart of Aarshaveda&apos;s culture, systems,
+                and soul.
+              </p>
             </div>
           </div>
         </div>

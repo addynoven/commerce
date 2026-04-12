@@ -1,4 +1,4 @@
-import { useActionState, useEffect } from "react";
+import { startTransition, useActionState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { buyNow } from "components/cart/actions";
 import { Product, ProductVariant } from "lib/shopify/types";
@@ -25,10 +25,12 @@ export function BuyNow({ product, quantity, className }: { product: Product; qua
 
   const handleBuyNow = () => {
     if (!selectedVariantId) return;
-    
-    formAction({
-      merchandiseId: selectedVariantId,
-      quantity: quantity
+
+    startTransition(() => {
+      formAction({
+        merchandiseId: selectedVariantId,
+        quantity: quantity
+      });
     });
   };
 

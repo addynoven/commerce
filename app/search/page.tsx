@@ -69,12 +69,13 @@ export default async function SearchPage(props: {
   }
 
   if (category) {
-    const categoryTitles = Array.isArray(category) ? category : [category];
+    const categoryTitles = (Array.isArray(category) ? category : [category])
+      .filter((t) => t !== "All"); // "All" means no category filter
     categoryTitles.forEach((title) => {
       const coll = collections.find((c) => c.title === title);
-      if (coll) {
+      if (coll && coll.handle) {
         filters.push({ collectionHandle: coll.handle } as any);
-      } else {
+      } else if (title !== "All") {
         filters.push({ productType: title });
       }
     });

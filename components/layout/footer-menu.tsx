@@ -27,19 +27,15 @@ export function FooterMenuItem({
       <Link
         href={item.path}
         className={clsx(
-          "text-[14px] font-semibold transition-colors hover:text-[#6e3835] flex items-center justify-between group py-1",
+          "text-base font-medium text-black capitalize transition-colors hover:text-[#6e3835] flex items-center gap-1 py-2 pl-2.5 pr-2 rounded whitespace-nowrap",
           {
-            "text-neutral-900": active,
-            "text-neutral-600": !active,
+            "text-black": active,
           },
         )}
       >
-        <div className="flex items-center">
-          <span className="w-0 group-hover:w-2 h-[1px] bg-[#6e3835] mr-0 group-hover:mr-2 transition-all"></span>
-          {item.title}
-        </div>
+        <span>{item.title}</span>
         {showChevron && (
-          <ChevronDownIcon className="h-4 w-4 text-neutral-400 group-hover:text-[#6e3835] transition-colors" />
+          <ChevronDownIcon className="h-4 w-4 text-black" />
         )}
       </Link>
     </li>
