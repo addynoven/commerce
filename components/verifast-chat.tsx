@@ -15,41 +15,74 @@ export function VerifastChat() {
   const [src, setSrc] = useState<string | null>(null);
 
   useEffect(() => {
-    const sessionId = getSessionId();
+    const customerId = getSessionId();
 
     const settings = {
       websocketUrl: "https://p-ws-async.verifast.ai",
       botUrl: "https://bot.verifast.ai",
-
-      selectedIndex: "arshavedaa.myshopify.com",
-
-      // Use Shopify domain so Verifast recognizes the parent
-      currentPage: "arshavedaa.myshopify.com",
-      currentPageHref: "https://arshavedaa.myshopify.com/",
-
-      customerId: sessionId,
-
-      botName: "Store Expert",
-      introMessage: "Welcome to our store! How can I help you today?",
-
+      currentPage: "aarshaveda.com/",
+      selectedIndex: "aarshaveda.myshopify.com",
       indexSuggestions: [
         "Suggest me something",
         "What are your bestsellers?",
-        "Track my Order",
       ],
-
       headerImageUrl:
-        "https://storage.googleapis.com/cdn.asia.verifast.tech/bot_images_new/skin_care_female_agent.webp",
-
+        "https://static.verifast.ai/bot_image_config_data/Expert%20%282%29%20%281%29.webp",
+      headerImageHeight: 50,
+      headerImageWidth: 50,
       iconUrl:
-        "https://storage.googleapis.com/cdn.asia.verifast.tech/bot_images_new/skin_care_female_agent.webp",
-
+        "https://static.verifast.ai/bot_image_config_data/Expert%20%282%29%20%281%29.webp",
+      introMessage: "Welcome to Aarshaveda. How can I help you today?",
+      botName: "AI Expert",
+      botSubText: "",
+      customerId,
+      primaryHex: "#809671",
+      nudgeText: "Talk to our Expert",
+      nudgeTextSize: "12px",
+      nudgeMaxHeight: 0,
+      nudgeMaxWidth: 0,
+      nudgeVariant: "text_only",
+      agentIconSize: "large",
+      agentIconPosition: "right",
+      iconSpaceFromSide: "30",
+      iconSpaceFromBottom: "30",
+      customerData: null,
+      currentPageHref: "https://aarshaveda.com/",
+      productTitle: "",
+      vfCollectionTitle: "",
+      vfPageType: "index",
       marketCode: "in",
-      websocket: true,
-      zIndex: "999999",
+      addToCart: true,
+      botDisabled: false,
+      carouselInsideCarousel: false,
+      cartflow: "shop_front_add_to_cart",
+      chatbotAbsoluteTop: false,
+      chatbotUIDesign: "DEFAULT",
+      enableWidgetSounds: "None",
+      internalBotConfig: {},
+      isVideoEnabled: true,
+      nudge: true,
+      nudgeAppearDelay: "5",
+      nudgeDisappearDelay: "15",
+      persistUtm: false,
+      provider: "shopify",
+      recordInteraction: false,
+      similarProductReplace: false,
+      socketConnectionRule: {
+        connectOn: "onDialogOpen",
+        onPageSendTime: 30,
+      },
+      speechRecognition: false,
+      storeType: "default",
+      textColor: "None",
+      "verifast-config-pointer": "chatbot-config",
+      zIndex: "9",
     };
 
-    const encoded = encodeURIComponent(JSON.stringify(settings));
+    // Verifast expects the settings param to be double-encoded
+    const encoded = encodeURIComponent(
+      encodeURIComponent(JSON.stringify(settings)),
+    );
     setSrc(`https://bot.verifast.ai/?verifastSettings=${encoded}`);
   }, []);
 
@@ -57,21 +90,18 @@ export function VerifastChat() {
 
   return (
     <iframe
-      id="verifast-iframe"
+      id="verifast-react-chatbot-iframe"
       src={src}
+      allow="microphone; camera"
       style={{
         position: "fixed",
-        bottom: "20px",
-        right: "20px",
-        width: "80px",
-        height: "80px",
+        right: "30px",
+        bottom: "30px",
+        width: "75px",
+        height: "75px",
         border: "none",
-        zIndex: 999999,
-        borderRadius: "50%",
-        overflow: "hidden",
-        pointerEvents: "auto",
+        zIndex: 9,
       }}
-      allow="microphone; clipboard-write"
     />
   );
 }

@@ -8,25 +8,39 @@ import { WishlistProvider } from "components/wishlist/wishlist-context";
 import { getCart, getCollections, getCustomer } from "lib/shopify";
 import { cookies } from "next/headers";
 import { baseUrl } from "lib/utils";
-import { Playfair_Display, Instrument_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import { ReactNode } from "react";
 import { Toaster } from "sonner";
 import { VerifastBridge } from "components/verifast-bridge";
 import { VerifastChat } from "components/verifast-chat";
 import "./globals.css";
 
-const instrumentSans = Instrument_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+const instrumentSans = localFont({
+  src: [
+    { path: "../public/fonts/instrument-sans-v4-latin-regular.woff2", weight: "400", style: "normal" },
+    { path: "../public/fonts/instrument-sans-v4-latin-500.woff2", weight: "500", style: "normal" },
+    { path: "../public/fonts/instrument-sans-v4-latin-600.woff2", weight: "600", style: "normal" },
+    { path: "../public/fonts/instrument-sans-v4-latin-700.woff2", weight: "700", style: "normal" },
+  ],
   variable: "--font-instrument",
   display: "swap",
+  preload: true,
+  fallback: ["Arial", "Helvetica", "sans-serif"],
 });
 
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+const playfair = localFont({
+  src: [
+    { path: "../public/fonts/playfair-display-v40-latin-regular.woff2", weight: "400", style: "normal" },
+    { path: "../public/fonts/playfair-display-v40-latin-500.woff2", weight: "500", style: "normal" },
+    { path: "../public/fonts/playfair-display-v40-latin-600.woff2", weight: "600", style: "normal" },
+    { path: "../public/fonts/playfair-display-v40-latin-700.woff2", weight: "700", style: "normal" },
+    { path: "../public/fonts/playfair-display-v40-latin-800.woff2", weight: "800", style: "normal" },
+    { path: "../public/fonts/playfair-display-v40-latin-900.woff2", weight: "900", style: "normal" },
+  ],
   variable: "--font-playfair",
   display: "swap",
+  preload: true,
+  fallback: ["Georgia", "Times New Roman", "serif"],
 });
 
 const { SITE_NAME } = process.env;

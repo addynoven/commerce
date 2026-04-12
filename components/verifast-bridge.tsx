@@ -8,41 +8,37 @@ export function VerifastBridge() {
       if (!event.origin.includes("verifast.ai")) return;
 
       const data = event.data;
-      const iframe = document.getElementById("verifast-iframe") as HTMLIFrameElement | null;
+      const iframe = document.getElementById(
+        "verifast-react-chatbot-iframe",
+      ) as HTMLIFrameElement | null;
+      if (!iframe) return;
 
-      // Handle resize request from Verifast (fixes "Max retries reached")
-      if (data?.type === "SET_DIMENSIONS" || data?.height) {
-        if (iframe) {
-          const h = data.height || 600;
-          const w = data.width || 380;
-          // Expand to full chat size or collapse back to icon
-          if (h > 100) {
-            iframe.style.height = `${h}px`;
-            iframe.style.width = `${w}px`;
-            iframe.style.borderRadius = "12px";
-          } else {
-            iframe.style.height = "80px";
-            iframe.style.width = "80px";
-            iframe.style.borderRadius = "50%";
-          }
-        }
+      // Accept any message that carries width/height and resize the iframe.
+      const h =
+        typeof data?.height === "number"
+          ? data.height
+          : typeof data?.payload?.height === "number"
+            ? data.payload.height
+            : null;
+      const w =
+        typeof data?.width === "number"
+          ? data.width
+          : typeof data?.payload?.width === "number"
+            ? data.payload.width
+            : null;
 
-        // IMPORTANT: Correct response that stops the retry loop
-        if (event.source) {
-          (event.source as Window).postMessage(
-            {
-              type: "SET_DIMENSIONS_SUCCESS",
-              success: true,
-            },
-            event.origin,
-          );
-        }
+      if (h !== null || w !== null) {
+        const finalH = h ?? parseInt(iframe.style.height) ?? 75;
+        const finalW = w ?? parseInt(iframe.style.width) ?? 75;
+        iframe.style.height = `${finalH}px`;
+        iframe.style.width = `${finalW}px`;
+        iframe.style.borderRadius = finalH > 100 ? "12px" : "50%";
       }
 
-      // Fallback response for untyped messages
-      if (!data?.type && event.source) {
+      // Always ack so Verifast stops its retry loop.
+      if (event.source) {
         (event.source as Window).postMessage(
-          { success: true },
+          { type: "SET_DIMENSIONS_SUCCESS", success: true },
           event.origin,
         );
       }
