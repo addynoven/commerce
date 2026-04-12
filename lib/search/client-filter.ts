@@ -126,7 +126,6 @@ function sortProducts(products: Product[], sortSlug?: string): Product[] {
       );
       break;
     case "CREATED_AT":
-    case "CREATED":
       sorted.sort(
         (a, b) =>
           new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
