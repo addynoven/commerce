@@ -30,6 +30,18 @@ export const customerAccessTokenCreateMutation = /* GraphQL */ `
   }
 `;
 
+export const customerRecoverMutation = /* GraphQL */ `
+  mutation customerRecover($email: String!) {
+    customerRecover(email: $email) {
+      customerUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+`;
+
 export const customerAddressCreateMutation = /* GraphQL */ `
   mutation customerAddressCreate($customerAccessToken: String!, $address: MailingAddressInput!) {
     customerAddressCreate(customerAccessToken: $customerAccessToken, address: $address) {

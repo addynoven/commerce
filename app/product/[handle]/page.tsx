@@ -7,7 +7,6 @@ import { ProductCard } from "components/product/product-card";
 import { ProductDescription } from "components/product/product-description";
 import { ProductTabs } from "components/product/product-tabs";
 import { ReviewSection } from "components/product/review-section";
-import { getReviewsForProduct } from "components/product/review-form-action";
 import { HIDDEN_PRODUCT_TAG } from "lib/constants";
 import { getProduct, getProductRecommendations } from "lib/shopify";
 import type { Image } from "lib/shopify/types";
@@ -80,11 +79,7 @@ export default async function ProductPage(props: {
     },
   };
 
-  const [localReviews, relatedProducts] = await Promise.all([
-    getReviewsForProduct(product.id),
-    getProductRecommendations(product.id),
-  ]);
-
+  const relatedProducts = await getProductRecommendations(product.id);
   const alsoAvailableProducts = relatedProducts.slice(0, 4);
 
   return (
@@ -145,7 +140,7 @@ export default async function ProductPage(props: {
       {/* Content Tabs Section */}
       <div id="product-tabs" className="w-full">
         <Suspense fallback={null}>
-          <ProductTabs descriptionHtml={product.descriptionHtml || ""} />
+          <ProductTabs product={product} />
         </Suspense>
       </div>
 
@@ -157,7 +152,7 @@ export default async function ProductPage(props: {
       {/* Customer Reviews Section */}
       <div className="main-container py-16">
         <Suspense fallback={null}>
-          <ReviewSection product={product} localReviews={localReviews} />
+          <ReviewSection product={product} />
         </Suspense>
       </div>
 

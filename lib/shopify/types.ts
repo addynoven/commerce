@@ -137,6 +137,9 @@ export type ShopifyProduct = {
   offers?: { value: string };
   viewCount?: { value: string };
   faqs?: { value: string };
+  benefits?: { value: string };
+  howToUse?: { value: string };
+  ingredients?: { value: string };
   rating?: { value: string };
   ratingCount?: { value: string };
   reviewsJson?: { value: string };

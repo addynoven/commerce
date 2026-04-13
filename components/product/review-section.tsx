@@ -3,7 +3,8 @@
 import { StarIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { Product } from "lib/shopify/types";
-import { useState, useActionState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState, useActionState } from "react";
 import { submitReview } from "./review-form-action";
 
 const MOCK_REVIEWS = [
@@ -75,13 +76,12 @@ function parseReviews(jsonValue: string | undefined) {
   }
 }
 
-export function ReviewSection({ product, localReviews = [] }: { product: Product, localReviews?: any[] }) {
+export function ReviewSection({ product }: { product: Product }) {
   const [showForm, setShowForm] = useState(false);
-  const dynamicReviews = parseReviews(product.reviewsJson?.value);
-  const reviewsToDisplay = [...localReviews, ...(dynamicReviews || [])];
+  const reviewsToDisplay = parseReviews(product.reviewsJson?.value) || [];
 
   const totalReviews = reviewsToDisplay.length;
-  const sumRating = reviewsToDisplay.reduce((acc, r: any) => acc + (r.rating || 0), 0);
+  const sumRating = reviewsToDisplay.reduce((acc: any, r: any) => acc + (r.rating || 0), 0);
   const averageRating: number = totalReviews > 0 ? Number((sumRating / totalReviews).toFixed(1)) : parseFloat(product.rating?.value || "0");
 
   const hasRealReviews = totalReviews > 0 || parseInt(product.ratingCount?.value || "0") > 0;
@@ -123,7 +123,7 @@ export function ReviewSection({ product, localReviews = [] }: { product: Product
               Cancel
             </button>
           </div>
-          <ReviewForm onSuccess={() => setShowForm(false)} productId={product.id} />
+          <ReviewForm onSuccess={() => setShowForm(false)} product={product} />
         </div>
       </div>
     );
@@ -243,10 +243,15 @@ export function ReviewSection({ product, localReviews = [] }: { product: Product
   );
 }
 
-function ReviewForm({ onSuccess, productId }: { onSuccess: () => void, productId: string }) {
+function ReviewForm({ onSuccess, product }: { onSuccess: () => void, product: Product }) {
   const [rating, setRating] = useState(5);
-  const boundSubmitReview = submitReview.bind(null, productId);
+  const router = useRouter();
+  const boundSubmitReview = submitReview.bind(null, product.handle, product.id);
   const [state, formAction, isPending] = useActionState(boundSubmitReview, null);
+
+  useEffect(() => {
+    if (state?.success) router.refresh();
+  }, [state, router]);
 
   if (state?.success) {
     return (

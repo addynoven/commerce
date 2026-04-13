@@ -1,5 +1,6 @@
 "use client";
 
+import { Product } from "lib/shopify/types";
 import { useState } from "react";
 
 type Tab = {
@@ -7,12 +8,99 @@ type Tab = {
   content: string;
 };
 
-export function ProductTabs({ descriptionHtml }: { descriptionHtml: string }) {
+function metafieldToHtml(value: string | undefined): string {
+  if (!value) return "";
+  const trimmed = value.trim();
+
+  // Shopify rich_text_field returns a JSON schema document
+  if (trimmed.startsWith("{")) {
+    try {
+      const parsed = JSON.parse(trimmed);
+      return richTextNodeToHtml(parsed);
+    } catch {
+      // fall through
+    }
+  }
+
+  // List metafield (multi_line / list.single_line)
+  if (trimmed.startsWith("[")) {
+    try {
+      const parsed = JSON.parse(trimmed);
+      if (Array.isArray(parsed)) {
+        return `<ul>${parsed
+          .map((item) => `<li>${escapeHtml(String(item))}</li>`)
+          .join("")}</ul>`;
+      }
+    } catch {
+      // fall through
+    }
+  }
+
+  // Plain multi-line text — preserve line breaks
+  if (trimmed.includes("\n")) {
+    return trimmed
+      .split(/\n+/)
+      .map((p) => `<p>${escapeHtml(p)}</p>`)
+      .join("");
+  }
+
+  // Looks like raw HTML already
+  if (trimmed.startsWith("<")) return trimmed;
+
+  return `<p>${escapeHtml(trimmed)}</p>`;
+}
+
+function richTextNodeToHtml(node: any): string {
+  if (!node) return "";
+  if (typeof node === "string") return escapeHtml(node);
+
+  const childrenHtml = Array.isArray(node.children)
+    ? node.children.map(richTextNodeToHtml).join("")
+    : "";
+
+  switch (node.type) {
+    case "root":
+      return childrenHtml;
+    case "paragraph":
+      return `<p>${childrenHtml}</p>`;
+    case "heading": {
+      const level = Math.min(Math.max(node.level || 2, 1), 6);
+      return `<h${level}>${childrenHtml}</h${level}>`;
+    }
+    case "list": {
+      const tag = node.listType === "ordered" ? "ol" : "ul";
+      return `<${tag}>${childrenHtml}</${tag}>`;
+    }
+    case "list-item":
+      return `<li>${childrenHtml}</li>`;
+    case "link":
+      return `<a href="${escapeHtml(node.url || "#")}" target="_blank" rel="noopener noreferrer">${childrenHtml}</a>`;
+    case "text": {
+      let text = escapeHtml(node.value || "");
+      if (node.bold) text = `<strong>${text}</strong>`;
+      if (node.italic) text = `<em>${text}</em>`;
+      return text;
+    }
+    default:
+      return childrenHtml;
+  }
+}
+
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+export function ProductTabs({ product }: { product: Product }) {
   const tabs: Tab[] = [
-    { label: "Description", content: descriptionHtml },
-    { label: "Benefits", content: "" },
-    { label: "How To Use", content: "" },
-    { label: "Ingredients", content: "" },
+    { label: "Description", content: product.descriptionHtml || "" },
+    { label: "Benefits", content: metafieldToHtml(product.benefits?.value) },
+    { label: "How To Use", content: metafieldToHtml(product.howToUse?.value) },
+    { label: "Ingredients", content: metafieldToHtml(product.ingredients?.value) },
   ];
 
   const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -72,8 +160,7 @@ export function ProductTabs({ descriptionHtml }: { descriptionHtml: string }) {
                     />
                   ) : (
                     <p className="text-[14px] text-neutral-500 font-medium leading-relaxed">
-                      Detailed information about &quot;{tab.label}&quot; for
-                      this product is coming soon.
+                      No {tab.label.toLowerCase()} information available for this product.
                     </p>
                   )}
                 </div>

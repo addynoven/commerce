@@ -1,6 +1,6 @@
 "use server";
 
-import { customerAccessTokenCreate, customerCreate } from "lib/shopify";
+import { customerAccessTokenCreate, customerCreate, customerRecover } from "lib/shopify";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -21,12 +21,13 @@ async function performLogin(formData: FormData) {
     }
 
     if (res.customerUserErrors && res.customerUserErrors.length > 0) {
-      return { error: res.customerUserErrors[0].message };
+      console.error("Login Error:", res.customerUserErrors);
+      return { error: "Incorrect email or password. Please try again." };
     }
 
     if (!res.customerAccessToken) {
       console.error("Login Error: No access token in response", res);
-      return { error: "Invalid email or password." };
+      return { error: "Incorrect email or password. Please try again." };
     }
 
     const { accessToken, expiresAt } = res.customerAccessToken;
@@ -96,6 +97,33 @@ export async function register(prevState: any, formData: FormData) {
       return loginResult;
     }
     redirect("/account");
+  }
+}
+
+export async function recover(prevState: any, formData: FormData) {
+  const email = formData.get("email") as string;
+
+  if (!email) {
+    return { error: "Email is required." };
+  }
+
+  try {
+    const res = await customerRecover(email);
+
+    if (!res) {
+      return { error: "Could not connect to Shopify. Please try again." };
+    }
+
+    if (res.customerUserErrors && res.customerUserErrors.length > 0) {
+      console.error("Recover Error:", res.customerUserErrors);
+    }
+
+    return {
+      success: "If an account exists for that email, we've sent a password reset link. Please check your inbox.",
+    };
+  } catch (e: any) {
+    console.error("Recover Exception:", e);
+    return { error: "An unexpected error occurred. Please try again." };
   }
 }
 

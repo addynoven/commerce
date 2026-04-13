@@ -77,11 +77,7 @@ export function ManufacturerInfo({ product }: { product: Product }) {
         />
       );
     }
-    return (
-      <div className="py-4 text-center text-neutral-400 font-medium font-sans">
-        Product-specific FAQs will be available soon.
-      </div>
-    );
+    return <ProductFaqs value={product.faqs?.value} />;
   };
 
   return (
@@ -199,6 +195,114 @@ export function ManufacturerInfo({ product }: { product: Product }) {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+type FaqItem = { question: string; answer: string };
+
+function parseFaqs(value: string | undefined): FaqItem[] {
+  if (!value) return [];
+  const trimmed = value.trim();
+  try {
+    const parsed = JSON.parse(trimmed);
+    if (Array.isArray(parsed)) {
+      return parsed
+        .map((entry) => {
+          if (typeof entry === "string") {
+            try {
+              const inner = JSON.parse(entry);
+              return normalizeFaq(inner);
+            } catch {
+              return null;
+            }
+          }
+          return normalizeFaq(entry);
+        })
+        .filter((f): f is FaqItem => !!f && !!f.question && !!f.answer);
+    }
+    if (parsed && typeof parsed === "object") {
+      const single = normalizeFaq(parsed);
+      return single ? [single] : [];
+    }
+  } catch {
+    // ignore
+  }
+  return [];
+}
+
+function normalizeFaq(obj: any): FaqItem | null {
+  if (!obj || typeof obj !== "object") return null;
+  const question = obj.question || obj.q || obj.title;
+  const answer = obj.answer || obj.a || obj.content;
+  if (!question || !answer) return null;
+  return { question: String(question), answer: String(answer) };
+}
+
+function ProductFaqs({ value }: { value: string | undefined }) {
+  const faqs = parseFaqs(value);
+  const [openIdx, setOpenIdx] = useState<number | null>(0);
+
+  if (faqs.length === 0) {
+    return (
+      <div className="py-4 text-center text-neutral-400 font-medium font-sans">
+        No FAQs available for this product yet.
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      {faqs.map((faq, idx) => {
+        const isOpen = openIdx === idx;
+        return (
+          <div
+            key={idx}
+            className="border border-neutral-200 rounded-md overflow-hidden bg-white"
+          >
+            <button
+              type="button"
+              onClick={() => setOpenIdx(isOpen ? null : idx)}
+              aria-expanded={isOpen}
+              className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left hover:bg-neutral-50 transition-colors"
+            >
+              <span className="text-[14px] font-sans font-semibold text-neutral-900">
+                {faq.question}
+              </span>
+              <span
+                className={`flex-none w-5 h-5 flex items-center justify-center text-[#A65B4A] transition-transform duration-300 ${
+                  isOpen ? "rotate-45" : "rotate-0"
+                }`}
+                aria-hidden="true"
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                >
+                  <line x1="10" y1="4" x2="10" y2="16" />
+                  <line x1="4" y1="10" x2="16" y2="10" />
+                </svg>
+              </span>
+            </button>
+            <div
+              className={`grid transition-all duration-300 ease-out ${
+                isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <div className="px-5 pb-4 text-[13.5px] text-neutral-600 leading-relaxed font-sans whitespace-pre-line">
+                  {faq.answer}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
