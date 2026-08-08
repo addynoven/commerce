@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -o /dev/null -s -w \"%{time_total}s HTTP %{http_code}\\\\n\" \"https://cdn.shopify.com/s/files/1/0982/2470/1812/files/Sataveri-Front.png?v=1773347851\")",
+      "Bash(npx tsc:*)",
+      "Bash(npm run:*)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(node -e \"const l = require\\('lucide-react'\\); console.log\\(Object.keys\\(l\\).filter\\(k => k.toLowerCase\\(\\).includes\\('pin'\\)\\).join\\(', '\\)\\)\")",
+      "Bash(npx next:*)",
+      "Bash(ls -la /home/neon/programs/side_project/commerce/*.env*)",
+      "Bash(find /home/neon/programs/side_project/commerce -type f \\\\\\( -name \"*.ts\" -o -name \"*.tsx\" \\\\\\) -exec grep -l \"TODO\\\\|FIXME\\\\|commented\\\\|//\" {} \\\\;)",
+      "Bash(find /home/neon/programs/side_project/commerce/app -name \"globals.css\" -exec head -80 {} \\\\;)",
+      "Bash(mkdir -p /home/neon/programs/side_project/commerce/public/fonts)",
+      "Read(//tmp/**)",
+      "Bash(curl -sLo playfair.zip \"https://gwfh.mranftl.com/api/fonts/playfair-display?download=zip&subsets=latin&variants=regular,500,600,700,800,900&formats=woff2\")",
+      "Bash(curl -sLo instrument.zip \"https://gwfh.mranftl.com/api/fonts/instrument-sans?download=zip&subsets=latin&variants=regular,500,600,700&formats=woff2\")",
+      "Bash(unzip -o /tmp/playfair.zip)",
+      "Bash(unzip -o /tmp/instrument.zip)",
+      "Bash(ls -1 *.woff2)",
+      "WebSearch",
+      "Bash(pnpm add:*)",
+      "Bash(ls /home/neon/programs/side_project/commerce/.env*)",
+      "Bash(chmod +x /home/neon/programs/side_project/commerce/scripts/docker-push.sh /home/neon/programs/side_project/commerce/scripts/vps-deploy.sh)",
+      "Bash(scp -i ~/Downloads/arshaveda.pem /home/neon/programs/side_project/commerce/.env ubuntu@13.234.121.208:~/.env.production)",
+      "Bash(scp -i ~/Downloads/arshaveda.pem /home/neon/programs/side_project/commerce/scripts/vps-deploy.sh ubuntu@13.234.121.208:~/vps-deploy.sh)",
+      "Bash(gh pr:*)",
+      "Bash(git stash:*)",
+      "Bash(git checkout:*)",
+      "Bash(git merge:*)",
+      "Bash(pnpm exec:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m 'Merge pull request #1 from raobadalyadav/main:*)",
+      "Bash(git push:*)",
+      "Bash(grep -l \"border-b border-neutral\\\\|md:hidden\\\\|hidden md:\" /home/neon/programs/side_project/commerce/components/product/*.tsx /home/neon/programs/side_project/commerce/app/product/**/*.tsx)"
+    ]
+  }
+}

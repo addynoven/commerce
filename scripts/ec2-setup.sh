@@ -1,11 +1,13 @@
 #!/bin/bash
-# One-shot setup + deploy for the commerce app on a fresh Ubuntu VPS.
+# One-shot setup for the commerce app on a fresh Ubuntu VPS.
+# The app runs from a pre-built Docker image — no build happens on this machine.
 #
-# Usage (from the repo root):
-#   bash scripts/ec2-setup.sh           # install everything, build, start
-#   bash scripts/ec2-setup.sh deploy    # pull + rebuild + restart (for updates)
+# Workflow:
+#   1. Locally:  bash scripts/docker-push.sh       # build + push image to Docker Hub
+#   2. On VPS:   bash scripts/ec2-setup.sh         # install Docker + nginx (first time only)
+#   3. On VPS:   bash scripts/vps-deploy.sh        # pull image + start container (every deploy)
 #
-# Before running: create .env.production in the repo root with your Shopify keys.
+# Before running setup: create ~/.env.production on the VPS with your Shopify keys.
 
 set -euo pipefail
 
@@ -21,16 +23,14 @@ install_deps() {
   sudo apt update && sudo apt upgrade -y
 
   log "Installing base packages"
-  sudo apt install -y curl git build-essential nginx certbot python3-certbot-nginx ufw
+  sudo apt install -y curl git nginx certbot python3-certbot-nginx ufw
 
-  if ! command -v node >/dev/null 2>&1; then
-    log "Installing Node.js 20"
-    curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-    sudo apt install -y nodejs
+  if ! command -v docker >/dev/null 2>&1; then
+    log "Installing Docker"
+    curl -fsSL https://get.docker.com | sudo sh
+    sudo usermod -aG docker "$USER"
+    log "Docker installed — you may need to log out and back in for group membership"
   fi
-
-  command -v pnpm >/dev/null 2>&1 || { log "Installing pnpm"; sudo npm install -g pnpm; }
-  command -v pm2  >/dev/null 2>&1 || { log "Installing pm2";  sudo npm install -g pm2; }
 
   log "Configuring firewall"
   sudo ufw allow OpenSSH
@@ -65,36 +65,9 @@ EOF
   sudo systemctl restart nginx
 }
 
-build_and_run() {
-  cd "$REPO_DIR"
-
-  if [[ ! -f .env.production ]]; then
-    echo "ERROR: .env.production not found in $REPO_DIR"
-    echo "Create it with COMPANY_NAME, SITE_NAME, SHOPIFY_* keys, then re-run."
-    exit 1
-  fi
-
-  log "Pulling latest"
-  git fetch --all --prune
-  git reset --hard "@{upstream}" || true
-
-  log "Installing dependencies"
-  pnpm install --frozen-lockfile
-
-  log "Building Next.js"
-  pnpm build
-
-  if pm2 describe "$APP_NAME" >/dev/null 2>&1; then
-    log "Restarting pm2 app"
-    pm2 restart "$APP_NAME" --update-env
-  else
-    log "Starting pm2 app"
-    PORT="$APP_PORT" pm2 start pnpm --name "$APP_NAME" --cwd "$REPO_DIR" -- start
-    sudo env PATH="$PATH:/usr/bin" pm2 startup systemd -u "$USER" --hp "$HOME" || true
-  fi
-
-  pm2 save
-  pm2 status
+start_app() {
+  log "Pulling Docker image and starting container"
+  bash "$REPO_DIR/scripts/vps-deploy.sh"
 }
 
 main() {
@@ -103,14 +76,13 @@ main() {
     all)
       install_deps
       setup_nginx
-      build_and_run
+      start_app
       log "Done. App running at http://$DOMAIN"
       log "Next: point DNS to this VPS, then run: sudo certbot --nginx -d $DOMAIN -d www.$DOMAIN"
       ;;
-    deploy) build_and_run ;;
-    logs)   pm2 logs "$APP_NAME" ;;
-    status) pm2 status ;;
-    *) echo "Usage: $0 {all|deploy|logs|status}"; exit 1 ;;
+    logs)   docker logs -f commerce ;;
+    status) docker ps --filter "name=commerce" ;;
+    *) echo "Usage: $0 {all|logs|status}"; exit 1 ;;
   esac
 }
 
